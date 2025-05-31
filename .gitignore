@@ -1,2 +1,19 @@
-result
-.direnv
+*~
+*.swp
+*.swo
+.gdb_history
+/.direnv.*
+/.direnv
+/.envrc
+/.clangd/
+/.ccls-cache/
+tags
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.cache/clangd
+.terraform/
+
+# Devenv
+.devenv*
+devenv.local.nix
