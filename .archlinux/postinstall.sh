@@ -25,7 +25,7 @@ PKGS=(
   zoxide direnv starship fzf
 
   # Fonts & UX
-  noto-fonts{,-cjk,-emoji} ttf-fira-code
+  noto-fonts{,-cjk,-emoji} ttf-fira-code ttf-nerd-fonts-symbols
   
   # User Apps
   chromium discord qbittorrent wezterm
