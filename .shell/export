@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Helper functions
 add_to_path() { [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && path=("$1" $path) }
 ifsource() { [[ -f "$1" ]] && source "$1" }

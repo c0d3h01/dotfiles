@@ -73,8 +73,6 @@ ifsource "$HOME/.zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
 ifsource "$HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
 ifsource "$HOME/.zsh-completions/zsh-completions.plugin.zsh"
 ifsource "$HOME/.fzf-tab/fzf-tab.plugin.zsh"
-ifsource "$HOME/.fzf/shell/completion.zsh"
-ifsource "$HOME/.fzf/shell/key-bindings.zsh"
 ifsource "$HOME/.homesick/repos/homeshick/homeshick.sh"
 
 # Autosuggestions config
@@ -83,9 +81,9 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC="true"
 
 # Custom configs
-ifsource "$HOME/.exports"
-ifsource "$HOME/.functions"
-ifsource "$HOME/.aliases"
+ifsource "$HOME/.sell/export"
+ifsource "$HOME/.shell/function"
+ifsource "$HOME/.shell/alias"
 
 # Tool initialization
 eval "$(zoxide init zsh --cmd j)"
