@@ -1,0 +1,43 @@
+# =======================================================
+# Git Commit Message Template
+# =======================================================
+# Lines starting with '#' are ignored by Git.
+# Fill in all sections where applicable.
+
+# 1. TYPE (Required, max 50 chars summary)
+# -------------------------------------------------------
+# Use one of the conventional commit types:
+# feat: new feature
+# fix: bug fix
+# docs: documentation
+# style: formatting / linting / non-functional
+# refactor: code change without behavior change
+# perf: performance improvement
+# test: adding or fixing tests
+# chore: build/system/tooling update
+# ci: CI/CD changes
+# build: build system changes
+# revert: reverts a previous commit
+# <type>(<scope>): <short summary>
+
+# 2. DESCRIPTION (Optional, wrap at 72 chars)
+# -------------------------------------------------------
+# Explain *what* was changed and *why* (not how).
+# Use bullet points if multiple changes:
+# - First change description
+# - Second change description
+# Reference issues/tickets if applicable:
+# Issue: #123
+# Jira: PROJECT-456
+# <detailed description>
+
+# 3. FOOTER / METADATA (Optional)
+# -------------------------------------------------------
+# Use for breaking changes, co-authors, or reviewers:
+# BREAKING CHANGE: describe the change and impact
+# Reviewed-by: <reviewer name>
+# Co-authored-by: <name> <email>
+# Related-PR: <url>
+
+# =======================================================
+# Auto-fill template end

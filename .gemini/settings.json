@@ -1,0 +1,20 @@
+{
+  "ide": {
+    "enable": true,
+    "hasSeenNudge": true
+  },
+  "ui": {
+    "hideTips": true,
+    "showStatusInTitle": true,
+    "showMemoryUsage": true
+  },
+  "general": {
+    "disableAutoUpdate": true,
+    "vimMode": true
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
+  }
+}

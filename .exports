@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# Helper functions
+add_to_path() { [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && path=("$1" $path) }
+ifsource() { [[ -f "$1" ]] && source "$1" }
+
+# Rust Build Environment
+export CARGO_HOME="$HOME/local/share/.cargo"
+ifsource "$HOME/local/share/.cargo/env"
+ifsource "$HOME/local/share/.cargo/bin"
+
+# Java
+command -v mise &>/dev/null && export JAVA_HOME="$(mise where java 2>/dev/null)"
+
+# Android
+if [[ -d "$HOME/Android/Sdk" ]]; then
+    export ANDROID_HOME="$HOME/Android/Sdk"
+    export ANDROID_SDK_ROOT="$ANDROID_HOME"
+    export NDK_HOME="$ANDROID_HOME/ndk"
+    add_to_path "$ANDROID_HOME/platform-tools"
+    add_to_path "$ANDROID_HOME/emulator"
+    add_to_path "$ANDROID_HOME/build-tools/36.0.0"
+    add_to_path "$NDK_HOME"
+fi
+
+# Flutter
+if [[ -d "$HOME/Android/flutter" ]]; then
+    export FLUTTER_HOME="$HOME/Android/flutter"
+    export CHROME_EXECUTABLE="${commands[chromium]:-${commands[google-chrome]}}"
+    add_to_path "$FLUTTER_HOME/bin"
+    add_to_path "$HOME/.pub-cache/bin"
+fi
+
+# Go
+export GOPATH="$HOME/.local/share/go"
+export GOBIN="$GOPATH/bin"
+add_to_path "$GOBIN"
+
+# Python
+export PYENV_ROOT="$HOME/.local/share/pyenv"
+export WORKON_HOME="$HOME/.local/share/virtual-envs"
+if [[ -d "$PYENV_ROOT" ]]; then
+    add_to_path "$PYENV_ROOT/bin"
+    eval "$(pyenv init - zsh)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+
+# nvm - node tool
+export NVM_DIR="$HOME/.local/nvm"
+ifsource "$NVM_DIR/nvm.sh"
+
+# Other tools
+add_to_path "$HOME/.local/share/solana/install/active_release/bin"
+
+# Local bins
+add_to_path "$HOME/.local/bin"
+add_to_path "$HOME/.npm-global/bin"
+add_to_path "$HOME/bin"
+
+# Tool configs
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
+export FZF_DEFAULT_OPTS='--color=bg+:#3c3836,bg:#32302f,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
+
+export K9S_CONFIG_DIR="$HOME/.config/k9s"

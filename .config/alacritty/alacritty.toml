@@ -1,0 +1,33 @@
+general.import = ["~/.config/alacritty/catppuccin-mocha.toml "]
+
+[env]
+TERM = "xterm-256color"
+
+[cursor]
+blinking = "Always"
+style = "Block"
+
+[mouse]
+hide_when_typing = true
+
+[window]
+padding.x = 14
+padding.y = 14
+decorations = "None"
+startup_mode = "Fullscreen"
+
+[font]
+normal = { family = "CaskaydiaMono Nerd Font", style = "Regular" }
+bold = { family = "CaskaydiaMono Nerd Font", style = "Bold" }
+italic = { family = "CaskaydiaMono Nerd Font", style = "Italic" }
+size = 12
+
+[[keyboard.bindings]]
+key = "NumpadEnter"
+
+[scrolling]
+history = 10000
+
+[selection]
+semantic_escape_chars = ",│`|:\"' ()[]{}<>"
+save_to_clipboard = false

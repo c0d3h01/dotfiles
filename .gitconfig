@@ -1,0 +1,223 @@
+[user]
+  name = Harshal Sawant
+  email = harshalsawant.dev@gmail.com
+  signingkey = B4242C21BAF74B7C
+
+[core]
+  editor = nvim
+  pager = delta
+  autocrlf = input
+  safecrlf = true
+  excludesfile = ~/.gitignore
+  attributesfile = ~/.gitattributes
+  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+  preloadindex = true
+  untrackedCache = true
+
+[init]
+  defaultBranch = main
+
+[color]
+  ui = always
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+
+[delta]
+  navigate = true
+  light = false
+  side-by-side = false
+  line-numbers = true
+  syntax-theme = TwoDark
+  file-style = omit
+  hunk-header-style = file line-number syntax
+
+[interactive]
+  diffFilter = delta --color-only
+
+[push]
+  default = simple
+  autoSetupRemote = true
+  recurseSubmodules = on-demand
+  followTags = true
+
+[pull]
+  rebase = true
+  autostash = true
+
+[fetch]
+  prune = true
+  pruneTags = true
+  fsckobjects = true
+
+[merge]
+  tool = nvim
+  conflictstyle = diff3
+  keepBackup = false
+  log = true
+
+[mergetool]
+  prompt = false
+  keepBackup = false
+
+[mergetool "nvim"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+
+[diff]
+  tool = nvim
+  algorithm = patience
+  renames = copies
+  mnemonicPrefix = true
+  compactionHeuristic = true
+  colorMoved = default
+  colorMovedWS = allow-indentation-change
+
+[difftool]
+  prompt = false
+
+[difftool "nvim"]
+  cmd = nvim -d $LOCAL $REMOTE
+
+[rebase]
+  autosquash = true
+  autoStash = true
+  updateRefs = true
+  stat = true
+
+[branch]
+  autoSetupRebase = always
+  autoSetupMerge = always
+  sort = -committerdate
+
+[status]
+  showUntrackedFiles = all
+  submoduleSummary = true
+
+[log]
+  abbrevCommit = true
+  decorate = short
+  date = relative
+
+[rerere]
+  enabled = true
+  autoupdate = true
+
+[submodule]
+  fetchJobs = 4
+  recurse = true
+
+[feature]
+  manyFiles = true
+
+[index]
+  threads = true
+
+[commit]
+  verbose = true
+  gpgsign = true
+
+[format]
+  signoff = false
+  pretty = fuller
+
+[help]
+  autocorrect = 10
+
+[tag]
+  sort = -version:refname
+  gpgsign = true
+
+[url "git@github.com:"]
+	insteadOf = http://github.com/
+  pushInsteadOf = "github:"
+  pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+  insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+  insteadOf = "gst:"
+  pushInsteadOf = "gist:"
+  pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+  insteadOf = "gist:"
+
+[github]
+  user = c0d3h01
+
+[gpg]
+	program = gpg
+
+[credential]
+  helper = 
+  helper = "!f() { command -v gh >/dev/null 2>&1 && gh auth git-credential; }; f"
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[transfer]
+  fsckobjects = true
+
+[receive]
+  fsckObjects = true
+
+[http]
+  cookiefile = ~/.gitcookies
+  lowSpeedLimit = 0
+  lowSpeedTime = 999999
+  postBuffer = 524288000
+
+[http "https://github.com"]
+  lowSpeedLimit = 0
+  lowSpeedTime = 999999
+
+[advice]
+  statusHints = true
+  detachedHead = false
+  skippedCherryPicks = false
+  pushUpdateRejected = false
+  resolveConflict = true
+
+[alias]     
+  aliases = config --get-regexp alias
+  remotes = remote --verbose
+  contributors = shortlog --summary --numbered
+  clone = clone --recursive
+  update = !git pull && git submodule update --init --recursive
+  st = status
+  br = branch --all
+  dt = difftool
+  lg = log --graph --decorate --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --abbrev-commit
+  f = fetch --all --prune
+  pf = push --force-with-lease
+  pu = push --set-upstream origin HEAD
+  pl = pull
+  pr = pull --rebase
+  ss = stash save
+  sp = stash pop
+  sl = stash list
+  cp = cherry-pick
+  wip = !git add -u && git commit -m "WIP"
+  undo = reset HEAD~1 --mixed
+  amend = commit -a --amend
+  ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
+  trim = !git remote prune origin && git gc
+  snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+  recent = branch --sort=-committerdate --format="%(committerdate:relative)%09%(refname:short)"
