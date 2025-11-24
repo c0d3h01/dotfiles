@@ -143,6 +143,7 @@ sudo -u "$TARGET_USER" env HOME="/home/$TARGET_USER" rustup default stable 2>/de
 
 echo "[*] Installing CachyOS LTS kernel"
 pacman -S --noconfirm chaotic-aur/linux-cachyos-lts
+grub-mkconfig -o /boot/grub/grub.cfg
 
 echo ""
 echo ""
