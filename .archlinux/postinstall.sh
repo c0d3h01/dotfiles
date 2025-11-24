@@ -145,6 +145,27 @@ echo "[*] Installing CachyOS LTS kernel"
 pacman -S --noconfirm chaotic-aur/linux-cachyos-lts
 grub-mkconfig -o /boot/grub/grub.cfg
 
+# -*- Configure firewalld: open common dev & service ports -*-
+systemctl enable --now firewalld
+firewall-cmd --permanent --add-port=22/tcp          # SSH 
+firewall-cmd --permanent --add-port=80/tcp          # HTTP
+firewall-cmd --permanent --add-port=443/tcp         # HTTPS 
+firewall-cmd --permanent --add-port=3000/tcp        # Dev servers (e.g., Next.js, React)
+firewall-cmd --permanent --add-port=5432/tcp        # PostgreSQL
+firewall-cmd --permanent --add-port=3306/tcp        # MySQL/MariaDB
+firewall-cmd --permanent --add-port=5433/tcp        # PostgreSQL (alternative, common in dev)
+firewall-cmd --permanent --add-port=6379/tcp        # Redis
+firewall-cmd --permanent --add-port=27017/tcp       # MongoDB
+firewall-cmd --permanent --add-port=9000/tcp        # Portainer, MinIO, etc.
+firewall-cmd --permanent --add-port=5000/tcp        # Flask, FastAPI dev
+firewall-cmd --permanent --add-port=8000/tcp        # Django, Vite, etc.
+
+# Enable common services (more robust than raw ports)
+firewall-cmd --permanent --add-service={http,https,ssh}
+
+# Reload to apply permanent rules to runtime
+firewall-cmd --reload
+
 echo ""
 echo ""
 echo "Done! Reboot when ready."
