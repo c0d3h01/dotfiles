@@ -4,8 +4,8 @@ export EDITOR="vim"
 export VISUAL="$EDITOR";
 export BROWSER="firefox"
 export CLICOLOR=1
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+export LC_ALL=en_IN.UTF-8
+export LANG=en_IN.UTF-8
 export TERM="xterm-256color"
 
 # Zsh history location
