@@ -1,10 +1,10 @@
 [user]
-  name = Harshal Sawant
+	name = Harshal
   email = harshalsawant.dev@gmail.com
   signingkey = B4242C21BAF74B7C
 
 [core]
-  editor = nvim
+  editor = vim
   pager = delta
   autocrlf = input
   safecrlf = true
@@ -64,7 +64,7 @@
   fsckobjects = true
 
 [merge]
-  tool = nvim
+  tool = vim
   conflictstyle = diff3
   keepBackup = false
   log = true
@@ -73,11 +73,11 @@
   prompt = false
   keepBackup = false
 
-[mergetool "nvim"]
-  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[mergetool "vim"]
+  cmd = vim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [diff]
-  tool = nvim
+  tool = vim
   algorithm = patience
   renames = copies
   mnemonicPrefix = true
@@ -88,8 +88,8 @@
 [difftool]
   prompt = false
 
-[difftool "nvim"]
-  cmd = nvim -d $LOCAL $REMOTE
+[difftool "vim"]
+  cmd = vim -d $LOCAL $REMOTE
 
 [rebase]
   autosquash = true
