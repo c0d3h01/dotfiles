@@ -22,6 +22,7 @@ PKGS=(
   docker docker-compose lazydocker jdk17-openjdk postgresql mariadb-lts
   vim tmux htop fastfetch curl wget zram-generator reflector 
   sops sshpass inxi alsa-utils bluez bluez-utils lm_sensors stow
+  zoxide direnv starship fzf
 
   # Fonts & UX
   noto-fonts{,-cjk,-emoji} ttf-fira-code
@@ -139,6 +140,9 @@ echo "→ Configuring rustup for $TARGET_USER"
 sudo -u "$TARGET_USER" env HOME="/home/$TARGET_USER" rustup default stable 2>/dev/null || {
   echo "⚠ Rustup toolchain installation will complete on first user login"
 }
+
+echo "[*] Installing CachyOS LTS kernel"
+pacman -S --noconfirm chaotic-aur/linux-cachyos-lts
 
 echo ""
 echo ""
