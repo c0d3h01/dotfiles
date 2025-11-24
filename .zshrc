@@ -1,9 +1,5 @@
 #!/usr/bin/env zsh
 
-export GIT_SIGNING_KEY = "B4242C21BAF74B7C";
-export GIT_EDITOR = "$EDITOR";
-export GIT_DEFAULT_BRANCH = "master";
-
 export EDITOR="vim"
 export VISUAL="$EDITOR";
 export BROWSER="firefox"
