@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-export EDITOR="vim"
+export EDITOR="nvim"
 export VISUAL="$EDITOR";
 export BROWSER="firefox"
 export CLICOLOR=1
@@ -8,40 +8,59 @@ export LC_ALL=en_IN.UTF-8
 export LANG=en_IN.UTF-8
 export TERM="xterm-256color"
 
-# Zsh history location
-export HISTFILE="$HOME/.zsh_history"
-export HISTSIZE=5000
-export SAVEHIST=5000
-
 # Zsh Options
 export DISABLE_AUTO_TITLE="true"
 export COMPLETION_WAITING_DOTS="false"
 export HIST_STAMPS="dd.mm.yyyy"
 
-setopt HIST_IGNORE_SPACE
-setopt appendhistory
-setopt sharehistory
-setopt incappendhistory
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_FIND_NO_DUPS
-setopt HIST_SAVE_NO_DUPS
+# Zsh history location
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=5000
+SAVEHIST=5000
+DIRSTACKSIZE=30
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
+setopt share_history
+setopt append_history
+setopt hist_verify
+setopt inc_append_history
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_space
+setopt long_list_jobs
 
-# CD settings
+# Pure prompt
+PURE_GIT_UNTRACKED_DIRTY=0 PURE_GIT_PULL=0
+PURE_PROMPT_SYMBOL="%(?.%F{green}.%F{red})%%%f"
+fpath+=($HOME/.pure)
+zstyle :prompt:pure:path color yellow
+zstyle :prompt:pure:git:branch color yellow
+zstyle :prompt:pure:user color cyan
+zstyle :prompt:pure:host color yellow
+zstyle :prompt:pure:git:branch:cached color red
+RPS1='%(?.%F{magenta}.%F{red}(%?%) %F{magenta})'
+autoload -U promptinit; promptinit
+prompt pure
+
+# settings
 setopt auto_cd
 setopt auto_list
+setopt no_beep
+setopt multios
 setopt auto_menu
 setopt always_to_end
 setopt interactive_comments
-
-## Autocycle
-setopt autopushd
+setopt pushd_ignore_dups
+setopt correct
+setopt auto_name_dirs
+autoload -U url-quote-magic
+zle -N self-insert url-quote-magic
+bindkey "^[m" copy-prev-shell-word
 
 # Completion system
+autoload colors; colors;
 autoload -Uz compinit
-zmodload zsh/complist
-compinit -d
+compinit -C
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''
@@ -57,16 +76,11 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 --color=always $realpath'
 # Helper function
 ifsource() { [ -f "$1" ] && source "$1"; }
 
-# Credentials and hashes
-ifsource "$HOME/.credentials"
-ifsource "$HOME/.zsh_dir_hashes"
-
 # Source plugins
 ifsource "$HOME/.zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
-ifsource "$HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
 ifsource "$HOME/.zsh-completions/zsh-completions.plugin.zsh"
 ifsource "$HOME/.fzf-tab/fzf-tab.plugin.zsh"
-ifsource "$HOME/.homesick/repos/homeshick/homeshick.sh"
+ifsource "$HOME/.fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
 # Autosuggestions config
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
@@ -74,14 +88,14 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC="true"
 
 # Custom configs
-ifsource "$HOME/.sell/export"
+ifsource "$HOME/.shell/export"
 ifsource "$HOME/.shell/function"
 ifsource "$HOME/.shell/alias"
 
-# Tool initialization
-eval "$(zoxide init zsh --cmd j)"
-eval "$(direnv hook zsh)"
-eval "$(starship init zsh)"
+# Load direnv-instant integration for non-blocking prompt
+if [ -n "${commands[direnv-instant]}" ] && [ -n "${commands[direnv-instant]}" ]; then
+  eval "$(direnv-instant hook zsh)"
+fi
 
 # Vim mode
 autoload -Uz edit-command-line

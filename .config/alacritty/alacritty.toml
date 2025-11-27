@@ -4,7 +4,7 @@ general.import = ["~/.config/alacritty/catppuccin-mocha.toml "]
 TERM = "xterm-256color"
 
 [cursor]
-blinking = "Always"
+blinking = ""
 style = "Block"
 
 [mouse]
@@ -17,9 +17,9 @@ decorations = "None"
 startup_mode = "Fullscreen"
 
 [font]
-normal = { family = "CaskaydiaMono Nerd Font", style = "Regular" }
-bold = { family = "CaskaydiaMono Nerd Font", style = "Bold" }
-italic = { family = "CaskaydiaMono Nerd Font", style = "Italic" }
+normal = { family = "JetBrains Mono", style = "Regular" }
+bold = { family = "JetBrains Mono", style = "Bold" }
+italic = { family = "JetBrains Mono", style = "Italic" }
 size = 12
 
 [[keyboard.bindings]]

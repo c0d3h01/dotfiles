@@ -4,7 +4,7 @@
   signingkey = B4242C21BAF74B7C
 
 [core]
-  editor = vim
+  editor = nvim
   pager = delta
   autocrlf = input
   safecrlf = true
@@ -64,7 +64,7 @@
   fsckobjects = true
 
 [merge]
-  tool = vim
+  tool = nvim
   conflictstyle = diff3
   keepBackup = false
   log = true
@@ -73,11 +73,11 @@
   prompt = false
   keepBackup = false
 
-[mergetool "vim"]
+[mergetool "nvim"]
   cmd = vim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [diff]
-  tool = vim
+  tool = nvim
   algorithm = patience
   renames = copies
   mnemonicPrefix = true
@@ -88,8 +88,8 @@
 [difftool]
   prompt = false
 
-[difftool "vim"]
-  cmd = vim -d $LOCAL $REMOTE
+[difftool "nvim"]
+  cmd = nvim -d $LOCAL $REMOTE
 
 [rebase]
   autosquash = true
@@ -163,7 +163,7 @@
 	program = gpg
 
 [credential]
-  helper = 
+  helper =
   helper = "!f() { command -v gh >/dev/null 2>&1 && gh auth git-credential; }; f"
 
 [filter "lfs"]
@@ -195,7 +195,7 @@
   pushUpdateRejected = false
   resolveConflict = true
 
-[alias]     
+[alias]
   aliases = config --get-regexp alias
   remotes = remote --verbose
   contributors = shortlog --summary --numbered
