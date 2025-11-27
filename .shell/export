@@ -8,16 +8,19 @@ ifsource "$HOME/local/share/.cargo/env"
 ifsource "$HOME/local/share/.cargo/bin"
 
 # Java
-command -v mise &>/dev/null && export JAVA_HOME="$(mise where java 2>/dev/null)"
+# export JAVA_HOME="$(where java)"
+export JAVA_HOME="$(dirname "$(dirname "$(readlink -f "$(which java)")")")"
+export PATH="$JAVA_HOME/bin:$PATH"
 
 # Android
 if [[ -d "$HOME/Android/Sdk" ]]; then
     export ANDROID_HOME="$HOME/Android/Sdk"
     export ANDROID_SDK_ROOT="$ANDROID_HOME"
-    export NDK_HOME="$ANDROID_HOME/ndk"
+    export NDK_HOME="$ANDROID_HOME/android-ndk-29"
+    add_to_path "$ANDROID_HOME/cmdline-tools/bin"
     add_to_path "$ANDROID_HOME/platform-tools"
     add_to_path "$ANDROID_HOME/emulator"
-    add_to_path "$ANDROID_HOME/build-tools/36.0.0"
+    add_to_path "$ANDROID_HOME/build-tools/36.1.0"
     add_to_path "$NDK_HOME"
 fi
 
