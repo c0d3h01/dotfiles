@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
-export EDITOR="nvim"
+export EDITOR="vim"
 export VISUAL="$EDITOR";
-export BROWSER="firefox"
+export BROWSER="brave"
 export CLICOLOR=1
 export LC_ALL=en_IN.UTF-8
 export LANG=en_IN.UTF-8
@@ -88,13 +88,13 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC="true"
 
 # Custom configs
-ifsource "$HOME/.shell/export"
-ifsource "$HOME/.shell/function"
-ifsource "$HOME/.shell/alias"
+ifsource "$HOME/.shell/exports.sh"
+ifsource "$HOME/.shell/functions.sh"
+ifsource "$HOME/.shell/aliases.sh"
 
-# Load direnv-instant integration for non-blocking prompt
-if [ -n "${commands[direnv-instant]}" ] && [ -n "${commands[direnv-instant]}" ]; then
-  eval "$(direnv-instant hook zsh)"
+# Load direnv integration
+if [ -n "${commands[direnv]}" ]; then
+  eval "$(direnv hook zsh)"
 fi
 
 # Vim mode

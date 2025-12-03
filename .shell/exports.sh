@@ -29,7 +29,6 @@ if [[ -d "$HOME/Android/flutter" ]]; then
     export FLUTTER_HOME="$HOME/Android/flutter"
     export CHROME_EXECUTABLE="${commands[chromium]:-${commands[google-chrome]}}"
     add_to_path "$FLUTTER_HOME/bin"
-    add_to_path "$HOME/.pub-cache/bin"
 fi
 
 # Go
@@ -39,11 +38,9 @@ add_to_path "$GOBIN"
 
 # Python
 export PYENV_ROOT="$HOME/.local/share/pyenv"
-export WORKON_HOME="$HOME/.local/share/virtual-envs"
 if [[ -d "$PYENV_ROOT" ]]; then
     add_to_path "$PYENV_ROOT/bin"
     eval "$(pyenv init - zsh)"
-    eval "$(pyenv virtualenv-init -)"
 fi
 
 # nvm - node tool
