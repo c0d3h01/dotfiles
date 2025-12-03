@@ -2,7 +2,3 @@
 # .gitattributes file in the directory where your files are.
 * !filter !diff
 *.gpg binary
-
-.ssh/** filter=git-crypt diff=git-crypt
-.gnupg/** filter=git-crypt diff=git-crypt
-
