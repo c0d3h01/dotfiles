@@ -198,7 +198,7 @@ function install_base_system() {
         evince                   # Document viewer (PDF, PostScript, XPS, djvu, dvi, tiff, cbr, cbz, cb7, cbt)
         file-roller              # Create and modify archives
         rhythmbox                # Music playback and management application
-        vlc                      # Free and open source cross-platform multimedia player and framework	
+        vlc                      # Free and open source cross-platform multimedia player and framework
         gnome-notes              # Write out notes, every detail matters
         gdm                      # Display manager and login screen
         gnome-settings-daemon    # GNOME Settings Daemon
@@ -310,7 +310,7 @@ function configure_system() {
 
     # Synchronizes system time with hardware clock, using UTC
     hwclock --systohc
-    
+
     # Configure system locale specified locale generation file
     echo "${CONFIG[LOCALE]} UTF-8" >> "/etc/locale.gen"
 
@@ -319,19 +319,18 @@ function configure_system() {
 
     # Set default language configuration
     echo "LANG=${CONFIG[LOCALE]}" > "/etc/locale.conf"
-    
+
     # Set keyboard layout for virtual console
     echo "KEYMAP=us" > "/etc/vconsole.conf"
-    
+
     # Set system hostname
     echo "${CONFIG[HOSTNAME]}" > "/etc/hostname"
-    
+
     # Configure hosts file for network resolution
     # Sets localhost and system-specific hostname mappings
     cat > "/etc/hosts" << HOSTS
 127.0.0.1   localhost
 ::1         localhost
-127.0.1.1   ${CONFIG[HOSTNAME]}.localdomain ${CONFIG[HOSTNAME]}
 HOSTS
 
     # Set root password using chpasswd (securely)
@@ -342,7 +341,7 @@ HOSTS
 
     # Set user password
     echo "${CONFIG[USERNAME]}:${CONFIG[PASSWORD]}" | chpasswd
-    
+
     # Enable sudo access for wheel group members
     sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' "/etc/sudoers"
 
@@ -351,11 +350,6 @@ HOSTS
 
     # -*- Generate GRUB configuration file -*-
     grub-mkconfig -o /boot/grub/grub.cfg
-
-    # Ensure microcode in initramfs
-    if ! grep -q '^HOOKS.*microcode' /etc/mkinitcpio.conf; then
-        sed -i "s/HOOKS=(/HOOKS=(microcode /" /etc/mkinitcpio.conf
-    fi
 
     # -*- Regenerate initramfs for all kernels -*-
     mkinitcpio -P
@@ -374,7 +368,7 @@ fs-type = swap
 ZRAM
 
     # Configure pacman with parallel downloads, color output, multilib repo, and extra options
-    sed -i 's/^#ParallelDownloads/ParallelDownloads/' "/etc/pacman.conf" 
+    sed -i 's/^#ParallelDownloads/ParallelDownloads/' "/etc/pacman.conf"
     sed -i 's/^#Color/Color/' "/etc/pacman.conf"
     sed -i '/^# Misc options/a DisableDownloadTimeout\nILoveCandy' "/etc/pacman.conf"
     sed -i '/#\[multilib\]/,/#Include = \/etc\/pacman.d\/mirrorlist/ s/^#//' "/etc/pacman.conf"

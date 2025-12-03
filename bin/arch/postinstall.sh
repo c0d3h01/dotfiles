@@ -7,30 +7,13 @@ TARGET_USER=${SUDO_USER:-${USER:-$(logname)}}
 
 # --- Packages to install ---
 PKGS=(
-  # Core
-  base-devel btrfs-progs efibootmgr grub
-
-  # Network/Security
   firewalld openssh avahi nss-mdns
-
-  # Audio/Video
-  pipewire pipewire-pulse pipewire-alsa pipewire-jack wireplumber 
-  gstreamer gst-plugins-{base,good,bad,ugly} gst-libav
-
-  # CLI & Dev Tools
-  git git-lfs git-crypt git-delta lazygit diffutils rustup go zig pyenv 
+  git git-lfs git-crypt git-delta lazygit diffutils rustup go zig pyenv
   docker docker-compose lazydocker jdk17-openjdk postgresql mariadb-lts
-  vim tmux htop fastfetch curl wget zram-generator reflector 
-  sops sshpass inxi alsa-utils bluez bluez-utils lm_sensors stow
-  zoxide direnv starship fzf
-
-  # Fonts & UX
+  vim tmux htop fastfetch curl wget zram-generator reflector
+  sops sshpass inxi stow zoxide direnv starship fzf
   noto-fonts{,-cjk,-emoji} ttf-fira-code ttf-nerd-fonts-symbols
-  
-  # User Apps
   chromium discord qbittorrent wezterm
-
-  # Extras
   snapper snap-pac grub-btrfs cups xclip
 )
 
@@ -40,7 +23,7 @@ PKGS=(
 echo "→ Updating mirrors & packages"
 pacman -S reflector
 reflector --country India --age 7 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-pacman -Syyu --noconfirm
+pacman -Syu --noconfirm
 
 echo "→ Installing packages"
 pacman -S --needed --noconfirm "${PKGS[@]}"
@@ -147,9 +130,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # -*- Configure firewalld: open common dev & service ports -*-
 systemctl enable --now firewalld
-firewall-cmd --permanent --add-port=22/tcp          # SSH 
+firewall-cmd --permanent --add-port=22/tcp          # SSH
 firewall-cmd --permanent --add-port=80/tcp          # HTTP
-firewall-cmd --permanent --add-port=443/tcp         # HTTPS 
+firewall-cmd --permanent --add-port=443/tcp         # HTTPS
 firewall-cmd --permanent --add-port=3000/tcp        # Dev servers (e.g., Next.js, React)
 firewall-cmd --permanent --add-port=5432/tcp        # PostgreSQL
 firewall-cmd --permanent --add-port=3306/tcp        # MySQL/MariaDB
