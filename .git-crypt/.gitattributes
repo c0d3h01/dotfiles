@@ -3,4 +3,6 @@
 * !filter !diff
 *.gpg binary
 
-.ssh/* filter=git-crypt diff=git-crypt
+.ssh/** filter=git-crypt diff=git-crypt
+.gnupg/** filter=git-crypt diff=git-crypt
+
