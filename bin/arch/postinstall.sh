@@ -22,7 +22,7 @@ PKGS=(
 
 echo "→ Updating mirrors & packages"
 pacman -S reflector
-reflector --country India --age 7 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+reflector --country India --age 10 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 pacman -Syu --noconfirm
 
 echo "→ Installing packages"
