@@ -142,6 +142,8 @@ firewall-cmd --permanent --add-port=27017/tcp       # MongoDB
 firewall-cmd --permanent --add-port=9000/tcp        # Portainer, MinIO, etc.
 firewall-cmd --permanent --add-port=5000/tcp        # Flask, FastAPI dev
 firewall-cmd --permanent --add-port=8000/tcp        # Django, Vite, etc.
+firewall-cmd --permanent --add-port=1714-1764/tcp   # gsconnect
+firewall-cmd --permanent --add-port=1714-1764/udp   # gsconnect
 
 # Enable common services (more robust than raw ports)
 firewall-cmd --permanent --add-service={http,https,ssh}
