@@ -151,7 +151,8 @@ function install_base_system() {
     pacman -Syy
 
     info "Running reflctor..."
-    reflector --country India --age 7 --protocol https --sort rate --save "/etc/pacman.d/mirrorlist"
+    reflector --country India --age 6 --protocol https --sort rate --fastest 20 \
+    --save /etc/pacman.d/mirrorlist
 
     local base_packages=(
         # -*- Core System -*-
@@ -273,7 +274,11 @@ function install_base_system() {
         chromium
         qbittorrent
     )
-    pacstrap -K /mnt --needed "${base_packages[@]}"
+
+    for pkg in "${base_packages[@]}"; do
+      info "Installing package: $pkg"
+      pacstrap -K /mnt --needed "$pkg"
+    done
 }
 
 # -*- System configuration function -*-
