@@ -24,25 +24,6 @@ function init_config() {
     local confirm_password=""
     local locale=""
 
-    # --- Disk selection ---
-    echo -e "${BLUE}Available disks:${NC}"
-    lsblk -dpno NAME,SIZE,MODEL | grep -E '^/dev/(sd|hd|vd|nvme)' || { echo "No disks found."; exit 1; }
-    echo
-    while [[ -z "$drive" ]]; do
-        read -rp "Enter disk device (e.g. /dev/nvme0n1): " drive
-        [[ -b "$drive" ]] && break
-        echo "!Invalid or non-existent block device: $drive"
-        drive=""
-    done
-
-    # --- Hostname & username ---
-    while [[ -z "$hostname" ]]; do
-        read -rp "Enter hostname: " hostname
-    done
-    while [[ -z "$username" ]]; do
-        read -rp "Enter username: " username
-    done
-
     # --- Password confirmation ---
     while true; do
         read -rsp "Enter password for root and user: " password
@@ -56,34 +37,14 @@ function init_config() {
         fi
     done
 
-    # --- Locale: safe default + optional override ---
-    locale_default="en_IN.UTF-8"
-    read -rp "Locale [$locale_default]: " user_locale
-    locale="${user_locale:-$locale_default}"
-    echo "Using locale: $locale"
-
-    # --- Timezone selection ---
-    timezone_default="Asia/Kolkata"
-    read -rp "Timezone [$timezone_default]: " user_tz
-    timezone="${user_tz:-$timezone_default}"
-    echo "Using timezone: $timezone"
-
-    if [[ "$drive" =~ nvme ]]; then
-      CONFIG[EFI_PART]="${drive}p1"
-      CONFIG[ROOT_PART]="${drive}p2"
-    else
-      CONFIG[EFI_PART]="${drive}1"
-      CONFIG[ROOT_PART]="${drive}2"
-    fi
-
-    CONFIG=(
-        [DRIVE]="$drive"
-        [HOSTNAME]="$hostname"
-        [USERNAME]="$username"
-        [PASSWORD]="$password"
-        [TIMEZONE]="$timezone"
-        [LOCALE]="$locale"
-    )
+    CONFIG[EFI_PART]="${drive}p1"
+    CONFIG[ROOT_PART]="${drive}p2"
+    CONFIG[DRIVE]="/dev/nvme0n1"
+    CONFIG[HOSTNAME]="archlinux"
+    CONFIG[USERNAME]="c0d3h01"
+    CONFIG[PASSWORD]="$password"
+    CONFIG[TIMEZONE]="Asia/Kolkata"
+    CONFIG[LOCALE]="en_IN.UTF-8"
 }
 
 # -*- Logging functions -*-
