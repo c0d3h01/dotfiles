@@ -341,6 +341,7 @@ install_base_system() {
         noto-fonts-emoji
         ttf-fira-code
         ttf-jetbrains-mono
+        ttf-jetbrains-mono-nerd
 
         # -*- Git Clients -*-
         git
