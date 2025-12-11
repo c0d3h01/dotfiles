@@ -263,34 +263,8 @@ function install_base_system() {
         vim
         tmux
 
-        # -*- Development-tool -*-
-        sops
-        rustup
-        lld
-        mold
-        gcc
-        glibc
-        gdb
-        make
-        cmake
-        clang
-        nvm
-        postgresql
-        mariadb-lts
-        mysql-workbench
-        docker
-        docker-compose
-        docker-buildx
-        lazydocker
-        jdk17-openjdk
-        pyenv
-        zig
-        go
-        php
-
         # -*- User Utilities -*-
         chromium
-        discord
         qbittorrent
     )
     pacstrap -K /mnt --needed "${base_packages[@]}"
@@ -390,14 +364,6 @@ ZRAM
     snapper-timeline.timer snapper-cleanup.timer
 
     systemctl --user enable pipewire wireplumber
-
-    # Modern DNS
-    systemctl enable systemd-resolved
-    ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-
-    # Ensure PipeWire replaces PulseAudio system-wide
-    ln -sf /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d/
-    systemctl --global enable pipewire pipewire-pulse wireplumber
 EOF
 }
 
@@ -405,7 +371,6 @@ function main() {
     info "Starting Arch Linux installation script..."
 
     # Resize fonts while installations
-    setfont latarcyrheb-sun32
     setfont ter-132n
 
     init_config
