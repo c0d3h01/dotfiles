@@ -68,6 +68,14 @@ function init_config() {
     timezone="${user_tz:-$timezone_default}"
     echo "Using timezone: $timezone"
 
+    if [[ "$drive" =~ nvme ]]; then
+      CONFIG[EFI_PART]="${drive}p1"
+      CONFIG[ROOT_PART]="${drive}p2"
+    else
+      CONFIG[EFI_PART]="${drive}1"
+      CONFIG[ROOT_PART]="${drive}2"
+    fi
+
     CONFIG=(
         [DRIVE]="$drive"
         [HOSTNAME]="$hostname"
@@ -75,8 +83,6 @@ function init_config() {
         [PASSWORD]="$password"
         [TIMEZONE]="$timezone"
         [LOCALE]="$locale"
-        [EFI_PART]="$drive"p1
-        [ROOT_PART]="$drive"p2
     )
 }
 
@@ -152,7 +158,6 @@ function install_base_system() {
         base              # Minimal package set to define a basic Arch Linux installation
         base-devel        # Basic tools to build Arch Linux packages
         linux-firmware    # Firmware files for Linux
-        linux
         linux-lts         # The LTS Linux kernel and modules
 
         # -*- Filesystem -*-
@@ -167,10 +172,6 @@ function install_base_system() {
         libva-mesa-driver # mesa with 32bit driver
         mesa              # Open-source OpenGL drivers
         vulkan-radeon     # Open-source Vulkan driver for AMD GPUs
-        xf86-video-amdgpu # X.org amdgpu video driver
-        xf86-video-ati    # X.org ati video driver
-        xorg-server       # Xorg X server
-        xorg-xinit        # X.Org initialisation program
 
         # -*- Network & firewall -*-
         networkmanager # Network connection manager and user applications
@@ -364,11 +365,8 @@ ZRAM
     docker.socket \
     sshd \
     cups.socket \
-    systemd-homed \
     systemd-timesyncd \
     snapper-timeline.timer snapper-cleanup.timer
-
-    systemctl --user enable pipewire wireplumber
 EOF
 }
 
