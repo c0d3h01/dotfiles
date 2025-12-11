@@ -1,18 +1,18 @@
 [user]
-	name = Harshal
+  name = Harshal Sawant
   email = harshalsawant.dev@gmail.com
   signingkey = B4242C21BAF74B7C
 
 [core]
-  editor = nvim
+  editor = vim
   pager = delta
   autocrlf = input
-  safecrlf = true
-  excludesfile = ~/.gitignore
-  attributesfile = ~/.gitattributes
-  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+  excludesfile = ~/.config/git/ignore
+  attributesfile = ~/.config/git/attributes
   preloadindex = true
   untrackedCache = true
+  fsmonitor = true
+  commitGraph = true
 
 [init]
   defaultBranch = main
@@ -20,39 +20,20 @@
 [color]
   ui = always
 
-[color "branch"]
-  current = yellow reverse
-  local = yellow
-  remote = green
-
-[color "diff"]
-  meta = yellow bold
-  frag = magenta bold
-  old = red bold
-  new = green bold
-
-[color "status"]
-  added = yellow
-  changed = green
-  untracked = cyan
-
 [delta]
   navigate = true
-  light = false
-  side-by-side = false
+  side-by-side = true
   line-numbers = true
   syntax-theme = TwoDark
-  file-style = omit
-  hunk-header-style = file line-number syntax
 
 [interactive]
   diffFilter = delta --color-only
 
 [push]
-  default = simple
+  default = current
   autoSetupRemote = true
-  recurseSubmodules = on-demand
   followTags = true
+  useForceIfIncludes = true
 
 [pull]
   rebase = true
@@ -61,63 +42,36 @@
 [fetch]
   prune = true
   pruneTags = true
+  writeCommitGraph = true
+  parallel = 0
   fsckobjects = true
 
 [merge]
-  tool = nvim
-  conflictstyle = diff3
-  keepBackup = false
-  log = true
-
-[mergetool]
-  prompt = false
-  keepBackup = false
-
-[mergetool "nvim"]
-  cmd = vim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+  conflictstyle = zdiff3
+  ff = false
 
 [diff]
-  tool = nvim
-  algorithm = patience
+  algorithm = histogram
+  colorMoved = zebra
   renames = copies
-  mnemonicPrefix = true
-  compactionHeuristic = true
-  colorMoved = default
-  colorMovedWS = allow-indentation-change
-
-[difftool]
-  prompt = false
-
-[difftool "nvim"]
-  cmd = nvim -d $LOCAL $REMOTE
 
 [rebase]
   autosquash = true
   autoStash = true
   updateRefs = true
-  stat = true
 
 [branch]
-  autoSetupRebase = always
-  autoSetupMerge = always
   sort = -committerdate
 
 [status]
-  showUntrackedFiles = all
   submoduleSummary = true
 
 [log]
-  abbrevCommit = true
-  decorate = short
   date = relative
 
 [rerere]
   enabled = true
   autoupdate = true
-
-[submodule]
-  fetchJobs = 4
-  recurse = true
 
 [feature]
   manyFiles = true
@@ -126,98 +80,80 @@
   threads = true
 
 [commit]
-  verbose = true
   gpgsign = true
 
-[format]
-  signoff = false
-  pretty = fuller
-
-[help]
-  autocorrect = 10
-
 [tag]
-  sort = -version:refname
   gpgsign = true
 
 [url "git@github.com:"]
-	insteadOf = http://github.com/
-  pushInsteadOf = "github:"
-  pushInsteadOf = "git://github.com/"
-
-[url "git://github.com/"]
-  insteadOf = "github:"
-
-[url "git@gist.github.com:"]
-  insteadOf = "gst:"
-  pushInsteadOf = "gist:"
-  pushInsteadOf = "git://gist.github.com/"
-
-[url "git://gist.github.com/"]
-  insteadOf = "gist:"
+  insteadOf = https://github.com/
 
 [github]
   user = c0d3h01
 
 [gpg]
-	program = gpg
+  program = gpg
 
 [credential]
-  helper =
-  helper = "!f() { command -v gh >/dev/null 2>&1 && gh auth git-credential; }; f"
+  helper = cache --timeout=3600
 
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
 
 [transfer]
   fsckobjects = true
 
+[protocol]
+  version = 2
+
+[submodule]
+  fetchJobs = 0
+  recurse = true
+
+[pack]
+  threads = 0
+  windowMemory = 256m
+
 [receive]
   fsckObjects = true
 
-[http]
-  cookiefile = ~/.gitcookies
-  lowSpeedLimit = 0
-  lowSpeedTime = 999999
-  postBuffer = 524288000
+[gc]
+  auto = 256
+  writeCommitGraph = true
 
-[http "https://github.com"]
-  lowSpeedLimit = 0
-  lowSpeedTime = 999999
+[help]
+  autocorrect = 20
 
-[advice]
-  statusHints = true
-  detachedHead = false
-  skippedCherryPicks = false
-  pushUpdateRejected = false
-  resolveConflict = true
+[blame]
+  ignoreRevsFile = .git-blame-ignore-revs
 
 [alias]
-  aliases = config --get-regexp alias
-  remotes = remote --verbose
-  contributors = shortlog --summary --numbered
-  clone = clone --recursive
-  update = !git pull && git submodule update --init --recursive
-  st = status
+  s = status --short --branch
   br = branch --all
-  dt = difftool
-  lg = log --graph --decorate --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --abbrev-commit
+  d = diff
+  ds = diff --staged
+  l = log --graph --oneline --decorate --all
+  lg = log --graph --pretty=format:'%C(yellow)%h%Creset %C(cyan)%ad%Creset%C(red)%d%Creset %s %C(blue)[%an]%Creset' --date=short
   f = fetch --all --prune
+  p = push
   pf = push --force-with-lease
-  pu = push --set-upstream origin HEAD
   pl = pull
-  pr = pull --rebase
+  c = commit
+  cm = commit --message
+  ca = commit --all --message
+  amend = commit --amend --no-edit
+  wip = !git add -A && git commit -m 'WIP'
+  undo = reset HEAD~1 --mixed
+  unstage = reset HEAD --
   ss = stash save
   sp = stash pop
   sl = stash list
   cp = cherry-pick
-  wip = !git add -u && git commit -m "WIP"
-  undo = reset HEAD~1 --mixed
-  amend = commit -a --amend
+  rb = rebase --interactive
+  sync = !git fetch --all --prune && git pull --rebase
+  recent = branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)'
+  root = rev-parse --show-toplevel
   ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
-  trim = !git remote prune origin && git gc
-  snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
-  recent = branch --sort=-committerdate --format="%(committerdate:relative)%09%(refname:short)"

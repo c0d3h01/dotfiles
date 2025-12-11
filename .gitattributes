@@ -1,2 +1,11 @@
-.ssh/* filter=git-crypt diff=git-crypt
-.gnupg/* filter=git-crypt diff=git-crypt
+# Encrypt secrets folder & secret module
+secrets/** filter=git-crypt diff=git-crypt
+
+# Encrypt any private keys or certs
+*.key filter=git-crypt diff=git-crypt
+
+# Files as binarys
+*.age -text -diff
+
+# Diffs
+flake.lock -diff

@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
 # Display PATH
 path() {
@@ -9,7 +9,7 @@ path() {
 extract() {
     local file="$1" dir="${2:-.}"
     [[ ! -f "$file" ]] && { print -u2 "Error: '$file' not found"; return 1; }
-    
+
     case "${file:l}" in
         *.tar.bz2|*.tbz2) tar -xjf "$file" -C "$dir" ;;
         *.tar.gz|*.tgz)   tar -xzf "$file" -C "$dir" ;;

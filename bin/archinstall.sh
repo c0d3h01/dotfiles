@@ -24,15 +24,15 @@ declare -A CONFIG
 readonly LOG_FILE="/tmp/archinstall-$(date +%Y%m%d-%H%M%S).log"
 
 # -*- Logging functions -*-
-info() { 
+info() {
     echo -e "${BLUE}[INFO]${NC} $*" | tee -a "$LOG_FILE"
 }
 
-success() { 
+success() {
     echo -e "${GREEN}[SUCCESS]${NC} $*" | tee -a "$LOG_FILE"
 }
 
-error() { 
+error() {
     echo -e "${RED}[ERROR]${NC} $*" | tee -a "$LOG_FILE"
 }
 
@@ -56,22 +56,22 @@ trap 'fatal "Script failed at line $LINENO"' ERR
 # -*- Pre-flight checks -*-
 check_prerequisites() {
     info "Running pre-flight checks..."
-    
+
     # Check if running as root
     if [[ $EUID -ne 0 ]]; then
         fatal "This script must be run as root"
     fi
-    
+
     # Check if booted in UEFI mode
     if [[ ! -d /sys/firmware/efi/efivars ]]; then
         fatal "System must be booted in UEFI mode"
     fi
-    
+
     # Check internet connectivity
     if ! ping -c 1 archlinux.org &>/dev/null; then
         fatal "No internet connection detected"
     fi
-    
+
     success "Pre-flight checks passed"
 }
 
@@ -101,7 +101,7 @@ init_config() {
 
     # Get drive selection
     read -rp "Enter drive path (e.g., /dev/nvme0n1 or /dev/sda): " drive
-    
+
     if [[ ! -b "$drive" ]]; then
         fatal "Drive $drive does not exist"
     fi
@@ -176,7 +176,7 @@ init_config() {
 # -*- Disk setup -*-
 setup_disk() {
     info "Setting up disk: ${CONFIG[DRIVE]}"
-    
+
     # Wipe and prepare the disk
     wipefs -af "${CONFIG[DRIVE]}"
     sgdisk --zap-all "${CONFIG[DRIVE]}"
@@ -205,7 +205,7 @@ setup_disk() {
 # -*- Filesystem setup -*-
 setup_filesystems() {
     info "Setting up filesystems..."
-    
+
     # Format partitions
     mkfs.fat -F32 "${CONFIG[EFI_PART]}"
     mkfs.btrfs -L "ROOT" -n 16k -f "${CONFIG[ROOT_PART]}"
@@ -253,7 +253,7 @@ install_base_system() {
     if ! command -v reflector &>/dev/null; then
         pacman -S --noconfirm reflector
     fi
-    
+
     reflector --country India --age 6 --protocol https --sort rate --fastest 20 \
         --save /etc/pacman.d/mirrorlist
 
@@ -340,6 +340,7 @@ install_base_system() {
         noto-fonts-cjk
         noto-fonts-emoji
         ttf-fira-code
+        ttf-jetbrains-mono
 
         # -*- Git Clients -*-
         git
@@ -448,7 +449,7 @@ EOF
 # -*- Custom configuration -*-
 custom_configuration() {
     info "Applying custom configuration..."
-    
+
     arch-chroot /mnt /bin/bash <<EOF
 set -e
 

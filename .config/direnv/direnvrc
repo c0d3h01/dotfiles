@@ -28,5 +28,5 @@ layout_dir() {
     export DIRENV_LAYOUT="$layout"
 }
 
-# Optional: auto-setup for every environment
+# auto-setup for every environment
 layout_dir

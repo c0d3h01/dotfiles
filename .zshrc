@@ -1,21 +1,8 @@
-export EDITOR="vim"
-export VISUAL="$EDITOR";
-export BROWSER="brave"
-export CLICOLOR=1
-export LC_ALL=en_IN.UTF-8
-export LANG=en_IN.UTF-8
-export TERM="xterm-256color"
-
-# Zsh Options
-export DISABLE_AUTO_TITLE="true"
-export COMPLETION_WAITING_DOTS="false"
-export HIST_STAMPS="dd.mm.yyyy"
-
 # Zsh history location
-HISTFILE="$HOME/.zsh_history"
-HISTSIZE=5000
-SAVEHIST=5000
-DIRSTACKSIZE=30
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=5000
+export SAVEHIST=5000
+export DIRSTACKSIZE=30
 setopt hist_ignore_dups
 setopt hist_reduce_blanks
 setopt share_history
@@ -86,13 +73,17 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC="true"
 
 # Custom configs
-ifsource "$HOME/.shell/exports.sh"
-ifsource "$HOME/.shell/functions.sh"
-ifsource "$HOME/.shell/aliases.sh"
+ifsource "$HOME/.shell_exports.sh"
+ifsource "$HOME/.shell_functions.sh"
+ifsource "$HOME/.shell_aliases.sh"
 
 # Load direnv integration
 if [ -n "${commands[direnv]}" ]; then
   eval "$(direnv hook zsh)"
+fi
+
+if [ -n "${commands[fzf]}" ]; then
+  source <(fzf --zsh)
 fi
 
 # Vim mode
