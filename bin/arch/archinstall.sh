@@ -152,6 +152,7 @@ function install_base_system() {
         base              # Minimal package set to define a basic Arch Linux installation
         base-devel        # Basic tools to build Arch Linux packages
         linux-firmware    # Firmware files for Linux
+        linux
         linux-lts         # The LTS Linux kernel and modules
 
         # -*- Filesystem -*-
@@ -262,6 +263,10 @@ function install_base_system() {
         xclip
         vim
         tmux
+        docker
+        docker-compose
+        docker-buildx
+        lazydocker
 
         # -*- User Utilities -*-
         chromium
