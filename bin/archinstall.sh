@@ -303,7 +303,6 @@ install_base_system() {
         loupe                    # A simple image viewer for GNOME
         evince                   # Document viewer (PDF, PostScript, XPS, djvu, dvi, tiff, cbr, cbz, cb7, cbt)
         file-roller              # Create and modify archives
-        rhythmbox                # Music playback and management application
         vlc                      # Free and open source cross-platform multimedia player and framework
         gnome-notes              # Write out notes, every detail matters
         gdm                      # Display manager and login screen
