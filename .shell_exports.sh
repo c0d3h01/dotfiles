@@ -1,8 +1,8 @@
 #!/bin/sh
 
-export EDITOR="vim"
+export EDITOR="nvim"
 export VISUAL="$EDITOR";
-export BROWSER="brave-browser"
+export BROWSER="chromium"
 export LC_ALL="en_IN.UTF-8"
 export LANG="en_IN.UTF-8"
 export TERM="xterm-256color"
@@ -35,36 +35,25 @@ ifsource() {
 }
 
 # Rust Build Environment
-export CARGO_HOME="$HOME/local/share/.cargo"
-ifsource "$HOME/local/share/.cargo/env"
-add_to_path "$HOME/local/share/.cargo/bin"
-
-# Java
-if command -v java > /dev/null; then
-    export JAVA_HOME=$(dirname $(dirname $(readlink -f $(command -v java))))
-fi
+export CARGO_HOME="$HOME/.local/share/.cargo"
+ifsource "$HOME/.local/share/.cargo/env"
+add_to_path "$HOME/.local/share/.cargo/bin"
 
 # Android
-if [ -d "$HOME/Android/Sdk" ]; then
+if [ -d "$HOME/Android" ]; then
+    export CHROME_EXECUTABLE="$BROWSER"
     export ANDROID_HOME="$HOME/Android/Sdk"
     export ANDROID_SDK_ROOT="$ANDROID_HOME"
-    export NDK_HOME="$ANDROID_HOME/android-ndk-29"
-    add_to_path "$ANDROID_HOME/cmdline-tools/bin"
+    export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/latest"
+    export NDK_HOME="$ANDROID_NDK_HOME"
+    export JAVA_HOME="$HOME/Android/jdk"
+    export FLUTTER_HOME="$HOME/Android/flutter"
+    add_to_path "$ANDROID_HOME/cmdline-tools/latest/bin"
     add_to_path "$ANDROID_HOME/platform-tools"
     add_to_path "$ANDROID_HOME/emulator"
     add_to_path "$ANDROID_HOME/build-tools/36.1.0"
     add_to_path "$NDK_HOME"
-fi
-
-# Flutter
-if [ -d "$HOME/Android/flutter" ]; then
-    export FLUTTER_HOME="$HOME/Android/flutter"
-    # Cross-shell compatible Chrome detection
-    if command -v chromium >/dev/null 2>&1; then
-        export CHROME_EXECUTABLE="$(command -v chromium)"
-    elif command -v google-chrome >/dev/null 2>&1; then
-        export CHROME_EXECUTABLE="$(command -v google-chrome)"
-    fi
+    add_to_path "$JAVA_HOME/bin"
     add_to_path "$FLUTTER_HOME/bin"
 fi
 

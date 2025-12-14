@@ -4,7 +4,7 @@
   signingkey = B4242C21BAF74B7C
 
 [core]
-  editor = vim
+  editor = nvim
   pager = delta
   autocrlf = input
   excludesfile = ~/.config/git/ignore
