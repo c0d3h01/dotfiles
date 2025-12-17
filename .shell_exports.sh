@@ -89,6 +89,7 @@ add_to_path "$HOME/.local/share/solana/install/active_release/bin"
 add_to_path "$HOME/.local/bin"
 add_to_path "$HOME/.npm-global/bin"
 add_to_path "$HOME/bin"
+export PATH="$HOME/.bun/bin:$PATH"
 
 # Tool configs
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
