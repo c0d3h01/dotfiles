@@ -1,16 +1,14 @@
 local wezterm = require("wezterm")
+local config = {}
 local act = wezterm.action
-
 local c = wezterm.config_builder and wezterm.config_builder() or {}
 
 c.front_end = "WebGpu"
 c.webgpu_power_preference = "HighPerformance"
-c.animation_fps = 1
+c.animation_fps = 120
 c.cursor_blink_rate = 0
-c.cursor_blink_ease_in = "Constant"
-c.cursor_blink_ease_out = "Constant"
 
-c.use_fancy_tab_bar = false
+c.use_fancy_tab_bar = true
 c.tab_bar_at_bottom = false
 c.show_tab_index_in_tab_bar = true
 c.tab_max_width = 32
@@ -23,22 +21,21 @@ c.visual_bell = {
   fade_out_duration_ms = 0,
 }
 
-c.window_decorations = "RESIZE"
-c.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
-c.window_close_confirmation = "NeverPrompt"
-c.window_background_opacity = 1.0
-c.scrollback_lines = 10000
 
 c.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
-c.font_size = 12
+c.font_size = 13
 c.line_height = 1.0
 c.cell_width = 1.0
-c.adjust_window_size_when_changing_font_size = false
-c.freetype_load_target = "Normal"
-c.freetype_render_target = "Normal"
-c.freetype_load_flags = "DEFAULT"
+c.window_background_opacity = 0.9
+c.adjust_window_size_when_changing_font_size = true
 
-c.color_scheme = "Tokyo Night"
+config.inactive_pane_hsb = {
+  saturation = 0.9,
+  brightness = 0.8,
+}
+
+-- c.color_scheme = "Tokyo Night"
+config.color_scheme = 'Batman'
 
 c.keys = {
   { key = "t", mods = "SUPER", action = act.SpawnTab("CurrentPaneDomain") },
@@ -79,9 +76,6 @@ c.keys = {
   { key = "Enter", mods = "SUPER", action = act.ToggleFullScreen },
   { key = "=", mods = "SUPER", action = act.IncreaseFontSize },
   { key = "-", mods = "SUPER", action = act.DecreaseFontSize },
-  { key = "0", mods = "SUPER", action = act.ResetFontSize },
-  { key = "PageUp", mods = "SHIFT", action = act.ScrollByPage(-1) },
-  { key = "PageDown", mods = "SHIFT", action = act.ScrollByPage(1) },
 }
 
 c.mouse_bindings = {
