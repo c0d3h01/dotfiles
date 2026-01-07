@@ -14,19 +14,6 @@ setopt hist_expire_dups_first
 setopt hist_ignore_space
 setopt long_list_jobs
 
-# Pure prompt
-PURE_GIT_UNTRACKED_DIRTY=0 PURE_GIT_PULL=0
-PURE_PROMPT_SYMBOL="%(?.%F{green}.%F{red})%%%f"
-fpath+=($HOME/.pure)
-zstyle :prompt:pure:path color yellow
-zstyle :prompt:pure:git:branch color yellow
-zstyle :prompt:pure:user color cyan
-zstyle :prompt:pure:host color yellow
-zstyle :prompt:pure:git:branch:cached color red
-RPS1='%(?.%F{magenta}.%F{red}(%?%) %F{magenta})'
-autoload -U promptinit; promptinit
-prompt pure
-
 # settings
 setopt auto_cd
 setopt auto_list
@@ -82,8 +69,9 @@ if [ -n "${commands[direnv]}" ]; then
   eval "$(direnv hook zsh)"
 fi
 
-if [ -n "${commands[fzf]}" ]; then
-  source <(fzf --zsh)
+# Starship prompt
+if [ -n "${commands[starship]}" ]; then
+  eval "$(starship init zsh)"
 fi
 
 # Vim mode

@@ -1,6 +1,5 @@
 return {
   "mrcjkb/rustaceanvim",
-  version = "^5",
   ft = { "rust" },
   init = function()
     vim.g.rustaceanvim = {
@@ -20,24 +19,12 @@ return {
             cargo = {
               allFeatures = true,
               loadOutDirsFromCheck = true,
-              buildScripts = { enable = true },
+              buildScripts = { enable = false },
             },
-            checkOnSave = true,
+            checkOnSave = false,
             diagnostics = { enable = true },
             procMacro = { enable = true },
             files = {
-              exclude = {
-                ".direnv",
-                ".git",
-                ".jj",
-                ".github",
-                ".gitlab",
-                "bin",
-                "node_modules",
-                "target",
-                "venv",
-                ".venv",
-              },
               watcher = "client",
             },
           },
