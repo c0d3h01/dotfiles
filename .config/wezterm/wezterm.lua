@@ -22,7 +22,7 @@ c.visual_bell = {
 }
 
 
-c.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
+-- c.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
 c.font_size = 13
 c.line_height = 1.0
 c.cell_width = 1.0
