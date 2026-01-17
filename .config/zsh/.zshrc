@@ -49,15 +49,15 @@ ifsource() { [ -f "$1" ] && source "$1"; }
 ifsource "$HOME/.credentials"
 
 # Source plugins
-ifsource "$ZOTDIR/plugins/autosuggestions/zsh-autosuggestions.plugin.zsh"
-ifsource "$ZOTDIR/plugins/completions/zsh-completions.plugin.zsh"
-ifsource "$ZOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh"
-ifsource "$ZOTDIR/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+ifsource "$ZDOTDIR/plugins/autosuggestions/zsh-autosuggestions.plugin.zsh"
+ifsource "$ZDOTDIR/plugins/completions/zsh-completions.plugin.zsh"
+ifsource "$ZDOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh"
+ifsource "$ZDOTDIR/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
 # Source configs
-ifsource "$HOME/.config/export.sh"
-ifsource "$HOME/.config/function.sh"
-ifsource "$HOME/.config/alias.sh"
+ifsource "$HOME/.config/shell/export.sh"
+ifsource "$HOME/.config/shell/function.sh"
+ifsource "$HOME/.config/shell/alias.sh"
 
 # Load direnv integration
 if [ -n "${commands[direnv]}" ]; then
@@ -68,7 +68,7 @@ fi
 if [ -n "${commands[starship]}" ]; then
   eval "$(starship init zsh)"
 fi
-HOME
+
 # load nix
 ifsource /etc/profile.d/nix.sh
 ifsource "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"

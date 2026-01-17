@@ -4,5 +4,4 @@ README.md
 .gitignore
 
 .direnvrc
-flake.nix
-flake.lock
+shell.nix
