@@ -1,28 +1,62 @@
-.cache/
+# general
 .DS_Store
-.Trashes
-.Trash-*
-*.bak
-*.swp
-*.swo
-*.elc
-.~lock*
-tmp/
-target/
-result
-result-*
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-# .direnv/
-node_modules
-vendor
 *.log
-.env
-.env.*
-.idea/
-.vscode/
-dist/
-coverage/
+*.rdb
+tags
+TAGS
+
+# editors
+.editorconfig
+.vscode
+
+# personal
+run-dev
+.vimruncmd
+.todo.md
+.mscripts
+.mdocs
+.direnv
+resources
+.tint.toml
+.litdb
+.referdb
+.llmrules
+.llmdocs
+mnotes.org
+mwork
+
+# python
+*.pyc
+__pycache__
+.mypy_cache
+
+# javascript
+build
+dist
+.cache
+node_modules
+
+# golang (dlv stuff)
+__debug_bin*
+debug.test*
+
+# nix
+shell.nix
+.envrc
+flake.nix
+flake.lock
+
+# emacs
+.dir-locals.el
+.rworkspaceignore
+default.rest
+
+# AI tools
+.aider.*
+.roorules
+.roo
+.github/copilot-instructions.md
+.opencode
+AGENTS.md
+**/.claude/settings.local.json
+CLAUDE.md

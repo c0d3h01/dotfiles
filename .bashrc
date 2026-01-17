@@ -15,50 +15,6 @@ shopt -s dirspell
 shopt -s nocaseglob
 shopt -s checkwinsize
 
-# Custom prompt (simplified version - no Pure prompt in Bash)
-# Basic two-line prompt with git branch support
-parse_git_branch() {
-    git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
-}
-
-set_prompt() {
-    local last_exit=$?
-    local git_branch=$(parse_git_branch)
-
-    # Color definitions
-    local reset='\[\033[0m\]'
-    local yellow='\[\033[33m\]'
-    local green='\[\033[32m\]'
-    local red='\[\033[31m\]'
-    local cyan='\[\033[36m\]'
-    local magenta='\[\033[35m\]'
-
-    # Prompt symbol based on last exit code
-    local symbol
-    if [ $last_exit -eq 0 ]; then
-        symbol="${green}%${reset}"
-    else
-        symbol="${red}%${reset}"
-    fi
-
-    # Build prompt
-    PS1="${cyan}\u${reset} ${yellow}\w${reset}"
-
-    # Add git branch if in a git repo
-    if [ -n "$git_branch" ]; then
-        PS1="${PS1} ${yellow}${git_branch}${reset}"
-    fi
-
-    PS1="${PS1}\n${symbol} "
-
-    # Right prompt (exit code if non-zero)
-    if [ $last_exit -ne 0 ]; then
-        PS1="${PS1}"
-    fi
-}
-
-PROMPT_COMMAND=set_prompt
-
 # Helper function
 ifsource() { [ -f "$1" ] && source "$1"; }
 
@@ -86,13 +42,18 @@ if ! shopt -oq posix; then
 fi
 
 # Custom configs
-ifsource "$HOME/.shell_exports.sh"
-ifsource "$HOME/.shell_functions.sh"
-ifsource "$HOME/.shell_aliases.sh"
+ifsource "$HOME/.config/export.sh"
+ifsource "$HOME/.config/function.sh"
+ifsource "$HOME/.config/alias.sh"
 
 # Load direnv integration
 if command -v direnv &>/dev/null; then
     eval "$(direnv hook bash)"
+fi
+
+# Starship prompt
+if [ -n "${commands[starship]}" ]; then
+  eval "$(starship init bash)"
 fi
 
 # Vi mode for Bash
@@ -107,10 +68,6 @@ bind -m vi-insert "\C-a":beginning-of-line
 bind -m vi-insert "\C-e":end-of-line
 bind -m vi-insert "\C-xe":edit-and-execute-command
 export KEYTIMEOUT=1
-
-if [ -n "${commands[fzf]}" ]; then
-  source <(fzf --bash)
-fi
 
 # Enable color support
 if [ -x /usr/bin/dircolors ]; then

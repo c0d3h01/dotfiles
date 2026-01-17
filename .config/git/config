@@ -5,16 +5,14 @@
 
 [core]
   editor = nvim
-  pager = delta
-  autocrlf = input
+  longpaths = true
+  compression = 9
+  pager = diff-so-fancy | less --tabs=4 -RFX
   excludesfile = ~/.config/git/ignore
   attributesfile = ~/.config/git/attributes
-  preloadindex = true
-  untrackedCache = true
-  fsmonitor = true
-  commitGraph = true
 
 [init]
+  templatedir = ~/.config/git/.git_template
   defaultBranch = main
 
 [color]
@@ -27,6 +25,7 @@
   syntax-theme = TwoDark
 
 [interactive]
+  singlekey = true
   diffFilter = delta --color-only
 
 [push]
@@ -82,8 +81,11 @@
 [commit]
 	gpgsign = true
 
+[hub]
+  protocol = ssh
+
 [tag]
-  gpgsign = true
+  sort = -taggerdate
 
 [url "git@github.com:"]
   insteadOf = https://github.com/
@@ -95,7 +97,7 @@
   program = gpg
 
 [credential]
-  helper = cache --timeout=3600
+  helper = cache
 
 [filter "lfs"]
   clean = git-lfs clean -- %f

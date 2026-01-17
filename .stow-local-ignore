@@ -2,3 +2,7 @@ README.md
 .gitmodules
 .gitattributes
 .gitignore
+
+.direnvrc
+flake.nix
+flake.lock

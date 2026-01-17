@@ -53,3 +53,9 @@
 *.nix merge=mergiraf
 *.sv merge=mergiraf
 *.svh merge=mergiraf
+
+*.png  diff=spaceman-diff
+*.jpg  diff=spaceman-diff
+*.jpeg diff=spaceman-diff
+*.gif  diff=spaceman-diff
+*.el diff=elisp

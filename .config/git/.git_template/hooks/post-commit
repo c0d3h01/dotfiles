@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Show number of commit so far
+green=`tput setaf 2`
+reset=`tput sgr0`
+echo -e "★ ${green}$(git rev-list --count HEAD) ${reset}commits so far"
