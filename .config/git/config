@@ -2,7 +2,6 @@
   name = Harshal Sawant
   email = harshalsawant.dev@gmail.com
   signingkey = B4242C21BAF74B7C
-
 [core]
   editor = nvim
   longpaths = true
@@ -10,128 +9,95 @@
   pager = diff-so-fancy | less --tabs=4 -RFX
   excludesfile = ~/.config/git/ignore
   attributesfile = ~/.config/git/attributes
-
 [init]
   templatedir = ~/.config/git/.git_template
   defaultBranch = main
-
 [color]
   ui = always
-
 [delta]
   navigate = true
   side-by-side = true
   line-numbers = true
   syntax-theme = TwoDark
-
 [interactive]
   singlekey = true
   diffFilter = delta --color-only
-
 [push]
   default = current
   autoSetupRemote = true
   followTags = true
   useForceIfIncludes = true
-
 [pull]
   rebase = true
   autostash = true
-
 [fetch]
   prune = true
   pruneTags = true
   writeCommitGraph = true
   parallel = 0
   fsckobjects = true
-
 [merge]
   conflictstyle = zdiff3
   ff = false
-
 [diff]
   algorithm = histogram
   colorMoved = zebra
   renames = copies
-
 [rebase]
   autosquash = true
   autoStash = true
   updateRefs = true
-
 [branch]
   sort = -committerdate
-
 [status]
   submoduleSummary = true
-
 [log]
   date = relative
-
 [rerere]
   enabled = true
   autoupdate = true
-
 [feature]
   manyFiles = true
-
 [index]
   threads = true
-
 [commit]
 	gpgsign = true
-
 [hub]
   protocol = ssh
-
 [tag]
   sort = -taggerdate
-
 [url "git@github.com:"]
   insteadOf = https://github.com/
-
 [github]
   user = c0d3h01
-
 [gpg]
   program = gpg
-
 [credential]
   helper = cache
-
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
   required = true
-
 [transfer]
   fsckobjects = true
-
 [protocol]
   version = 2
-
 [submodule]
   fetchJobs = 0
   recurse = true
-
 [pack]
   threads = 0
   windowMemory = 256m
-
 [receive]
   fsckObjects = true
-
 [gc]
   auto = 256
   writeCommitGraph = true
-
 [help]
   autocorrect = 20
-
 [blame]
   ignoreRevsFile = .git-blame-ignore-revs
-
 [alias]
   s = status --short --branch
   br = branch --all
@@ -159,3 +125,7 @@
   recent = branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)'
   root = rev-parse --show-toplevel
   ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
+[sendemail]
+	smtpEncryption = tls
+	smtpUser = harshalsawant.dev@gmail.com
+	from = Harshal <harshalsawant.dev@gmail.com>
