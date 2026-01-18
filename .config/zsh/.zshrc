@@ -4,7 +4,7 @@ export COMPLETION_WAITING_DOTS="false"
 export HIST_STAMPS="dd.mm.yyyy"
 export HISTSIZE=5000
 export SAVEHIST=5000
-export HISTFILE="$HOME/.local/share/zsh/.zsh_history"
+export HISTFILE="$HOME/.zsh_history"
 setopt HIST_IGNORE_SPACE
 setopt appendhistory
 setopt sharehistory
