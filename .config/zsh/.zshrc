@@ -86,6 +86,13 @@ ifsource "$HOME/.local/share/zsh/.zsh_dir_hashes"
 # Source colors for ls (trapd00r/LS_COLORS)
 eval "$(dircolors -b "$ZDOTDIR/dircolors")"
 
+# Pyenv setup
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d "$PYENV_ROOT/bin" ]] && add_to_path "$PYENV_ROOT/bin"
+if [ -n "${commands[pyenv]}" ]; then
+  eval "$(pyenv init - zsh)"
+fi
+
 # Vim mode
 autoload -Uz edit-command-line
 zle -N edit-command-line
