@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # zsh settings
 export DISABLE_AUTO_TITLE="true"
 export COMPLETION_WAITING_DOTS="false"

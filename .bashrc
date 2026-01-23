@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Bash history configuration
 export HISTFILE="$HOME/.bash_history"
 export HISTSIZE=5000

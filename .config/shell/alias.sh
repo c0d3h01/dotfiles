@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Process monitoring
 if [[ -n ${commands[procs]} ]]; then
