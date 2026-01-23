@@ -81,7 +81,7 @@ add_to_path "$BUN_INSTALL/bin"
 
 # Rust
 export RUSTUP_HOME="$HOME/.local/share/rustup"
-export CARGO_INSTALL_ROOT="$HOME/.local/share/cargo/bin"
+export CARGO_INSTALL_ROOT="$HOME/.local/share/cargo"
 add_to_path "$CARGO_INSTALL_ROOT" && add_to_path "$RUSTUP_HOME/bin"
 
 # Tool configs
