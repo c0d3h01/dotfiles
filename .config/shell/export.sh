@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export EDITOR="nvim"
-export VISUAL="nvim";
+export VISUAL="nvim"
 export BROWSER=
 export DIFFTOOL='icdiff'
 export LC_ALL="en_IN.UTF-8"
@@ -13,26 +13,26 @@ export HIST_STAMPS="dd.mm.yyyy"
 
 # Detect shell type
 if [ -n "$ZSH_VERSION" ]; then
-    SHELL_TYPE="zsh"
+	SHELL_TYPE="zsh"
 elif [ -n "$BASH_VERSION" ]; then
-    SHELL_TYPE="bash"
+	SHELL_TYPE="bash"
 else
-    SHELL_TYPE="sh"
+	SHELL_TYPE="sh"
 fi
 
 # Helper functions
 add_to_path() {
-    if [ -d "$1" ] && ! echo "$PATH" | grep -q "(^|:)$1($|:)"; then
-        if [ "$SHELL_TYPE" = "zsh" ]; then
-            path=("$1" $path)
-        else
-            export PATH="$1:$PATH"
-        fi
-    fi
+	if [ -d "$1" ] && ! echo "$PATH" | grep -q "(^|:)$1($|:)"; then
+		if [ "$SHELL_TYPE" = "zsh" ]; then
+			path=("$1" $path)
+		else
+			export PATH="$1:$PATH"
+		fi
+	fi
 }
 
 ifsource() {
-    [ -f "$1" ] && . "$1"
+	[ -f "$1" ] && . "$1"
 }
 
 # Rust Build Environment
@@ -42,20 +42,20 @@ add_to_path "$HOME/.local/share/.cargo/bin"
 
 # Android
 if [ -d "$HOME/Android" ]; then
-    export CHROME_EXECUTABLE="$BROWSER"
-    export ANDROID_HOME="$HOME/Android/Sdk"
-    export ANDROID_SDK_ROOT="$ANDROID_HOME"
-    export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/latest"
-    export NDK_HOME="$ANDROID_NDK_HOME"
-    export JAVA_HOME="$HOME/Android/jdk"
-    export FLUTTER_HOME="$HOME/Android/flutter"
-    add_to_path "$ANDROID_HOME/cmdline-tools/latest/bin"
-    add_to_path "$ANDROID_HOME/platform-tools"
-    add_to_path "$ANDROID_HOME/emulator"
-    add_to_path "$ANDROID_HOME/build-tools/36.1.0"
-    add_to_path "$NDK_HOME"
-    add_to_path "$JAVA_HOME/bin"
-    add_to_path "$FLUTTER_HOME/bin"
+	export CHROME_EXECUTABLE="$BROWSER"
+	export ANDROID_HOME="$HOME/Android/Sdk"
+	export ANDROID_SDK_ROOT="$ANDROID_HOME"
+	export ANDROID_NDK_HOME="$ANDROID_HOME/ndk/latest"
+	export NDK_HOME="$ANDROID_NDK_HOME"
+	export JAVA_HOME="$HOME/Android/jdk"
+	export FLUTTER_HOME="$HOME/Android/flutter"
+	add_to_path "$ANDROID_HOME/cmdline-tools/latest/bin"
+	add_to_path "$ANDROID_HOME/platform-tools"
+	add_to_path "$ANDROID_HOME/emulator"
+	add_to_path "$ANDROID_HOME/build-tools/36.1.0"
+	add_to_path "$NDK_HOME"
+	add_to_path "$JAVA_HOME/bin"
+	add_to_path "$FLUTTER_HOME/bin"
 fi
 
 # Go

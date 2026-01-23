@@ -4,26 +4,26 @@ set -euo pipefail
 # ---- Get target user safely ----
 TARGET_USER=${SUDO_USER:-${USER:-$(logname)}}
 [[ -n "$TARGET_USER" ]] || {
-  echo "Could not determine target user"
-  exit 1
+	echo "Could not determine target user"
+	exit 1
 }
 
 # --- Packages to install ---
 PKGS=(
-  firewalld openssh avahi nss-mdns
-  git git-lfs git-crypt git-delta lazygit diffutils rustup go zig pyenv
-  docker docker-compose lazydocker jdk17-openjdk postgresql mariadb-lts
-  vim tmux htop fastfetch curl wget zram-generator reflector
-  sops sshpass inxi stow zoxide direnv starship fzf
-  noto-fonts{,-cjk,-emoji} ttf-fira-code ttf-nerd-fonts-symbols
-  chromium discord qbittorrent wezterm
-  snapper snap-pac grub-btrfs cups xclip
+	firewalld openssh avahi nss-mdns
+	git git-lfs git-crypt git-delta lazygit diffutils rustup go zig pyenv
+	docker docker-compose lazydocker jdk17-openjdk postgresql mariadb-lts
+	vim tmux htop fastfetch curl wget zram-generator reflector
+	sops sshpass inxi stow zoxide direnv starship fzf
+	noto-fonts{,-cjk,-emoji} ttf-fira-code ttf-nerd-fonts-symbols
+	chromium discord qbittorrent wezterm
+	snapper snap-pac grub-btrfs cups xclip
 )
 
 # --- Run as root ---
 ((EUID == 0)) || {
-  echo "Run as root"
-  exit 1
+	echo "Run as root"
+	exit 1
 }
 
 echo "→ Updating mirrors & packages"
@@ -39,18 +39,18 @@ usermod -aG video,audio,sys,rfkill,storage,lp,docker "$TARGET_USER"
 
 echo "→ Enabling services"
 systemctl enable \
-  avahi-daemon sshd bluetooth docker.socket cups.socket \
-  systemd-resolved systemd-timesyncd fstrim.timer \
-  snapper-timeline.timer snapper-cleanup.timer firewalld
+	avahi-daemon sshd bluetooth docker.socket cups.socket \
+	systemd-resolved systemd-timesyncd fstrim.timer \
+	snapper-timeline.timer snapper-cleanup.timer firewalld
 
 # --- Pacman config ---
 echo "→ Configuring pacman"
 sed -i \
-  -e 's/^#ParallelDownloads/ParallelDownloads/' \
-  -e 's/^#Color/Color/' \
-  -e '/# Misc options/a DisableDownloadTimeout\nILoveCandy' \
-  -e 's/^#\[multilib\]/[multilib]/' \
-  /etc/pacman.conf
+	-e 's/^#ParallelDownloads/ParallelDownloads/' \
+	-e 's/^#Color/Color/' \
+	-e '/# Misc options/a DisableDownloadTimeout\nILoveCandy' \
+	-e 's/^#\[multilib\]/[multilib]/' \
+	/etc/pacman.conf
 
 # Enable multilib Include line (handles both commented states)
 sed -i '/^\[multilib\]/,/^Include/ s/^#Include/Include/' /etc/pacman.conf
@@ -74,12 +74,12 @@ pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
 pacman-key --lsign-key 3056513887B78AEB
 
 pacman -U --noconfirm \
-  'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
-  'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+	'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
+	'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
 # Append repo if not already present
 if ! grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
-  cat >>/etc/pacman.conf <<'EOF'
+	cat >>/etc/pacman.conf <<'EOF'
 
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
@@ -96,38 +96,38 @@ sudo -u "$TARGET_USER" mkdir -p "$YAY_DIR"
 sudo -u "$TARGET_USER" git clone --depth=1 https://aur.archlinux.org/yay-bin.git "$YAY_DIR"
 pushd "$YAY_DIR" >/dev/null
 sudo -u "$TARGET_USER" env HOME="/home/$TARGET_USER" \
-  makepkg -si --noconfirm --needed
+	makepkg -si --noconfirm --needed
 popd >/dev/null
 rm -rf "$YAY_DIR"
 
 # --- PostgreSQL initialization ---
 echo "→ Initializing PostgreSQL"
 if [[ ! -d /var/lib/postgres/data/base ]]; then
-  sudo -u postgres initdb -D /var/lib/postgres/data
-  systemctl enable --now postgresql
-  echo "✓ PostgreSQL initialized and started"
+	sudo -u postgres initdb -D /var/lib/postgres/data
+	systemctl enable --now postgresql
+	echo "✓ PostgreSQL initialized and started"
 else
-  echo "✓ PostgreSQL already initialized"
-  systemctl enable postgresql
+	echo "✓ PostgreSQL already initialized"
+	systemctl enable postgresql
 fi
 
 # --- MariaDB initialization ---
 echo "→ Initializing MariaDB"
 if [[ ! -d /var/lib/mysql/mysql ]]; then
-  mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-  systemctl enable --now mariadb
-  echo "✓ MariaDB initialized and started"
-  echo ""
-  echo "⚠ Run 'sudo mysql_secure_installation' after reboot to secure MariaDB"
+	mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+	systemctl enable --now mariadb
+	echo "✓ MariaDB initialized and started"
+	echo ""
+	echo "⚠ Run 'sudo mysql_secure_installation' after reboot to secure MariaDB"
 else
-  echo "✓ MariaDB already initialized"
-  systemctl enable mariadb
+	echo "✓ MariaDB already initialized"
+	systemctl enable mariadb
 fi
 
 # --- Rustup configuration ---
 echo "→ Configuring rustup for $TARGET_USER"
 sudo -u "$TARGET_USER" env HOME="/home/$TARGET_USER" rustup default stable 2>/dev/null || {
-  echo "⚠ Rustup toolchain installation will complete on first user login"
+	echo "⚠ Rustup toolchain installation will complete on first user login"
 }
 
 echo "[*] Installing CachyOS LTS kernel"

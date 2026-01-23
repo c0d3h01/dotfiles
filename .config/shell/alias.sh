@@ -2,32 +2,32 @@
 
 # Process monitoring
 if [[ -n ${commands[procs]} ]]; then
-  alias ps='procs --theme light'
+	alias ps='procs --theme light'
 else
-  alias ps='ps auxf'
+	alias ps='ps auxf'
 fi
 
 # Detect if eza is available, fallback to ls
 if command -v eza >/dev/null 2>&1; then
-    # eza aliases
-    alias ls='eza --group-directories-first --icons'
-    alias l='eza --group-directories-first --icons -lh'
-    alias ll='eza --group-directories-first --icons -lah'
-    alias la='eza --group-directories-first --icons -a'
-    alias lt='eza --group-directories-first --icons --tree'
-    alias l.='eza --group-directories-first --icons -d .*'
-    alias tree='eza --group-directories-first --icons --tree'
+	# eza aliases
+	alias ls='eza --group-directories-first --icons'
+	alias l='eza --group-directories-first --icons -lh'
+	alias ll='eza --group-directories-first --icons -lah'
+	alias la='eza --group-directories-first --icons -a'
+	alias lt='eza --group-directories-first --icons --tree'
+	alias l.='eza --group-directories-first --icons -d .*'
+	alias tree='eza --group-directories-first --icons --tree'
 else
-    # Fallback to ls with colors
-    if [ -n "$ZSH_VERSION" ]; then
-        alias ls='ls --color=auto --group-directories-first'
-    else
-        alias ls='ls --color=auto --group-directories-first'
-    fi
-    alias l='ls -lh'
-    alias ll='ls -lah'
-    alias la='ls -A'
-    alias l.='ls -d .*'
+	# Fallback to ls with colors
+	if [ -n "$ZSH_VERSION" ]; then
+		alias ls='ls --color=auto --group-directories-first'
+	else
+		alias ls='ls --color=auto --group-directories-first'
+	fi
+	alias l='ls -lh'
+	alias ll='ls -lah'
+	alias la='ls -A'
+	alias l.='ls -d .*'
 fi
 
 # Common navigation aliases
@@ -88,24 +88,24 @@ alias ports='netstat -tulanp'
 
 # Docker shortcuts (if docker is available)
 if command -v docker >/dev/null 2>&1; then
-    alias d='docker'
-    alias dc='docker-compose'
-    alias dps='docker ps'
-    alias dpa='docker ps -a'
-    alias di='docker images'
-    alias dex='docker exec -it'
-    alias dlog='docker logs -f'
+	alias d='docker'
+	alias dc='docker-compose'
+	alias dps='docker ps'
+	alias dpa='docker ps -a'
+	alias di='docker images'
+	alias dex='docker exec -it'
+	alias dlog='docker logs -f'
 fi
 
 # Kubernetes shortcuts (if kubectl is available)
 if command -v kubectl >/dev/null 2>&1; then
-    alias k='kubectl'
-    alias kgp='kubectl get pods'
-    alias kgs='kubectl get svc'
-    alias kgd='kubectl get deployments'
-    alias kdp='kubectl describe pod'
-    alias kds='kubectl describe svc'
-    alias kdd='kubectl describe deployment'
-    alias kex='kubectl exec -it'
-    alias klog='kubectl logs -f'
+	alias k='kubectl'
+	alias kgp='kubectl get pods'
+	alias kgs='kubectl get svc'
+	alias kgd='kubectl get deployments'
+	alias kdp='kubectl describe pod'
+	alias kds='kubectl describe svc'
+	alias kdd='kubectl describe deployment'
+	alias kex='kubectl exec -it'
+	alias klog='kubectl logs -f'
 fi
