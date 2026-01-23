@@ -72,6 +72,7 @@ ifsource "$NVM_DIR/nvm.sh"
 add_to_path "$HOME/.local/share/solana/install/active_release/bin"
 
 # Local bins
+add_to_path "$HOME/.avm/bin"
 add_to_path "$HOME/.local/bin"
 add_to_path "$HOME/.local/share/npm-global/bin"
 
