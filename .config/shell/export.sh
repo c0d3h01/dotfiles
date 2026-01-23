@@ -63,24 +63,9 @@ export GOPATH="$HOME/.local/share/go"
 export GOBIN="$GOPATH/bin"
 add_to_path "$GOBIN"
 
-# Python
-export PYENV_ROOT="$HOME/.local/share/pyenv"
-if [ -d "$PYENV_ROOT" ]; then
-    add_to_path "$PYENV_ROOT/bin"
-    # Shell-specific pyenv initialization
-    if command -v pyenv >/dev/null 2>&1; then
-        if [ "$SHELL_TYPE" = "zsh" ]; then
-            eval "$(pyenv init - zsh)"
-        elif [ "$SHELL_TYPE" = "bash" ]; then
-            eval "$(pyenv init - bash)"
-        else
-            eval "$(pyenv init -)"
-        fi
-    fi
-fi
-
 # nvm - node tool
-export NVM_DIR="$HOME/.local/nvm"
+export NVM_DIR="$HOME/.local/share/nvm"
+[ -d "$NVM_DIR" ] || mkdir -p "$NVM_DIR"
 ifsource "$NVM_DIR/nvm.sh"
 
 # Other tools
@@ -88,9 +73,16 @@ add_to_path "$HOME/.local/share/solana/install/active_release/bin"
 
 # Local bins
 add_to_path "$HOME/.local/bin"
-add_to_path "$HOME/.npm-global/bin"
-add_to_path "$HOME/bin"
-export PATH="$HOME/.bun/bin:$PATH"
+add_to_path "$HOME/.local/share/npm-global/bin"
+
+# Bun
+export BUN_INSTALL="$HOME/.local/share/bun"
+add_to_path "$BUN_INSTALL/bin"
+
+# Rust
+export RUSTUP_HOME="$HOME/.local/share/rustup"
+export CARGO_INSTALL_ROOT="$HOME/.local/share/cargo/bin"
+add_to_path "$CARGO_INSTALL_ROOT" && add_to_path "$RUSTUP_HOME/bin"
 
 # Tool configs
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
