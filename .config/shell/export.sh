@@ -7,9 +7,6 @@ export DIFFTOOL='icdiff'
 export LC_ALL="en_IN.UTF-8"
 export LANG="en_IN.UTF-8"
 export TERM="xterm-256color"
-export DISABLE_AUTO_TITLE="true"
-export COMPLETION_WAITING_DOTS="false"
-export HIST_STAMPS="dd.mm.yyyy"
 
 # Detect shell type
 if [ -n "$ZSH_VERSION" ]; then
