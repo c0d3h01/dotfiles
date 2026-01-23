@@ -1,3 +1,5 @@
 .gdb_history
-!shell.nix
 .zcompdump
+!.envrc
+!flake.nix
+!flake.lock
