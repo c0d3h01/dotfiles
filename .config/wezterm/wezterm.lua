@@ -14,40 +14,40 @@ config = {
 
   keys = {
     -- Tab management
-    { key = "t", mods = "CTRL|SHIFT", action = act.SpawnTab("CurrentPaneDomain") },
-    { key = "w", mods = "CTRL|SHIFT", action = act.CloseCurrentTab({ confirm = false }) },
-    { key = "1", mods = "CTRL", action = act.ActivateTab(0) },
-    { key = "2", mods = "CTRL", action = act.ActivateTab(1) },
-    { key = "3", mods = "CTRL", action = act.ActivateTab(2) },
-    { key = "4", mods = "CTRL", action = act.ActivateTab(3) },
-    { key = "5", mods = "CTRL", action = act.ActivateTab(4) },
-    { key = "6", mods = "CTRL", action = act.ActivateTab(5) },
-    { key = "7", mods = "CTRL", action = act.ActivateTab(6) },
-    { key = "8", mods = "CTRL", action = act.ActivateTab(7) },
-    { key = "9", mods = "CTRL", action = act.ActivateTab(8) },
-    { key = "[", mods = "CTRL|SHIFT", action = act.ActivateTabRelative(-1) },
-    { key = "]", mods = "CTRL|SHIFT", action = act.ActivateTabRelative(1) },
+    { key = "t", mods = "SUPER|SHIFT", action = act.SpawnTab("CurrentPaneDomain") },
+    { key = "w", mods = "SUPER|SHIFT", action = act.CloseCurrentTab({ confirm = false }) },
+    { key = "1", mods = "SUPER|SHIFT", action = act.ActivateTab(0) },
+    { key = "2", mods = "SUPER|SHIFT", action = act.ActivateTab(1) },
+    { key = "3", mods = "SUPER|SHIFT", action = act.ActivateTab(2) },
+    { key = "4", mods = "SUPER|SHIFT", action = act.ActivateTab(3) },
+    { key = "5", mods = "SUPER|SHIFT", action = act.ActivateTab(4) },
+    { key = "6", mods = "SUPER|SHIFT", action = act.ActivateTab(5) },
+    { key = "7", mods = "SUPER|SHIFT", action = act.ActivateTab(6) },
+    { key = "8", mods = "SUPER|SHIFT", action = act.ActivateTab(7) },
+    { key = "9", mods = "SUPER|SHIFT", action = act.ActivateTab(8) },
+    { key = "[", mods = "SUPER|SHIFT", action = act.ActivateTabRelative(-1) },
+    { key = "]", mods = "SUPER|SHIFT", action = act.ActivateTabRelative(1) },
 
     -- Pane management
-    { key = "d", mods = "CTRL|SHIFT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-    { key = "D", mods = "CTRL|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
-    { key = "x", mods = "CTRL|SHIFT", action = act.CloseCurrentPane({ confirm = false }) },
-    { key = "h", mods = "CTRL|SHIFT", action = act.ActivatePaneDirection("Left") },
-    { key = "l", mods = "CTRL|SHIFT", action = act.ActivatePaneDirection("Right") },
-    { key = "k", mods = "CTRL|SHIFT", action = act.ActivatePaneDirection("Up") },
-    { key = "j", mods = "CTRL|SHIFT", action = act.ActivatePaneDirection("Down") },
-    { key = "LeftArrow", mods = "CTRL|SHIFT|ALT", action = act.AdjustPaneSize({ "Left", 5 }) },
-    { key = "RightArrow", mods = "CTRL|SHIFT|ALT", action = act.AdjustPaneSize({ "Right", 5 }) },
-    { key = "UpArrow", mods = "CTRL|SHIFT|ALT", action = act.AdjustPaneSize({ "Up", 5 }) },
-    { key = "DownArrow", mods = "CTRL|SHIFT|ALT", action = act.AdjustPaneSize({ "Down", 5 }) },
+    { key = "d", mods = "SUPER|SHIFT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+    { key = "d", mods = "SUPER|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+    { key = "x", mods = "SUPER|SHIFT", action = act.CloseCurrentPane({ confirm = false }) },
+    { key = "h", mods = "SUPER|SHIFT", action = act.ActivatePaneDirection("Left") },
+    { key = "l", mods = "SUPER|SHIFT", action = act.ActivatePaneDirection("Right") },
+    { key = "k", mods = "SUPER|SHIFT", action = act.ActivatePaneDirection("Up") },
+    { key = "j", mods = "SUPER|SHIFT", action = act.ActivatePaneDirection("Down") },
+    { key = "LeftArrow", mods = "SUPER|SHIFT|ALT", action = act.AdjustPaneSize({ "Left", 5 }) },
+    { key = "RightArrow", mods = "SUPER|SHIFT|ALT", action = act.AdjustPaneSize({ "Right", 5 }) },
+    { key = "UpArrow", mods = "SUPER|SHIFT|ALT", action = act.AdjustPaneSize({ "Up", 5 }) },
+    { key = "DownArrow", mods = "SUPER|SHIFT|ALT", action = act.AdjustPaneSize({ "Down", 5 }) },
 
     -- Copy/Paste
-    { key = "c", mods = "CTRL|SHIFT", action = act.CopyTo("Clipboard") },
-    { key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom("Clipboard") },
+    { key = "c", mods = "SUPER|SHIFT", action = act.CopyTo("Clipboard") },
+    { key = "v", mods = "SUPER|SHIFT", action = act.PasteFrom("Clipboard") },
 
     -- Search and URL
-    { key = "f", mods = "CTRL|SHIFT", action = act.Search("CurrentSelectionOrEmptyString") },
-    { key = "u", mods = "CTRL|SHIFT", action = act.QuickSelectArgs({
+    { key = "f", mods = "SUPER|SHIFT", action = act.Search("CurrentSelectionOrEmptyString") },
+    { key = "u", mods = "SUPER|SHIFT", action = act.QuickSelectArgs({
         patterns = { "https?://\\S+" },
         action = wezterm.action_callback(function(window, pane)
           local url = window:get_selection_text_for_pane(pane)
@@ -57,10 +57,10 @@ config = {
     },
 
     -- Fullscreen and font size
-    { key = "Enter", mods = "ALT", action = act.ToggleFullScreen },
-    { key = "=", mods = "CTRL", action = act.IncreaseFontSize },
-    { key = "-", mods = "CTRL", action = act.DecreaseFontSize },
-    { key = "0", mods = "CTRL", action = act.ResetFontSize },
+    { key = "Enter", mods = "SUPER|ALT", action = act.ToggleFullScreen },
+    { key = "=", mods = "SUPER|ALT", action = act.IncreaseFontSize },
+    { key = "-", mods = "SUPER|ALT", action = act.DecreaseFontSize },
+    { key = "0", mods = "SUPER|ALT", action = act.ResetFontSize },
   },
 
   mouse_bindings = {
