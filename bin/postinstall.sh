@@ -3,7 +3,10 @@ set -euo pipefail
 
 # ---- Get target user safely ----
 TARGET_USER=${SUDO_USER:-${USER:-$(logname)}}
-[[ -n "$TARGET_USER" ]] || { echo "Could not determine target user"; exit 1; }
+[[ -n "$TARGET_USER" ]] || {
+  echo "Could not determine target user"
+  exit 1
+}
 
 # --- Packages to install ---
 PKGS=(
@@ -18,7 +21,10 @@ PKGS=(
 )
 
 # --- Run as root ---
-(( EUID == 0 )) || { echo "Run as root"; exit 1; }
+((EUID == 0)) || {
+  echo "Run as root"
+  exit 1
+}
 
 echo "→ Updating mirrors & packages"
 pacman -S reflector
@@ -51,7 +57,7 @@ sed -i '/^\[multilib\]/,/^Include/ s/^#Include/Include/' /etc/pacman.conf
 
 # --- Zram configuration ---
 echo "→ Configuring zram"
-cat > /etc/systemd/zram-generator.conf <<'EOF'
+cat >/etc/systemd/zram-generator.conf <<'EOF'
 [zram0]
 compression-algorithm = zstd
 zram-size = ram
@@ -73,7 +79,7 @@ pacman -U --noconfirm \
 
 # Append repo if not already present
 if ! grep -q "\[chaotic-aur\]" /etc/pacman.conf; then
-  cat >> /etc/pacman.conf <<'EOF'
+  cat >>/etc/pacman.conf <<'EOF'
 
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist
@@ -88,10 +94,10 @@ echo "→ Installing yay AUR helper"
 YAY_DIR="/tmp/yay-install-$TARGET_USER"
 sudo -u "$TARGET_USER" mkdir -p "$YAY_DIR"
 sudo -u "$TARGET_USER" git clone --depth=1 https://aur.archlinux.org/yay-bin.git "$YAY_DIR"
-pushd "$YAY_DIR" > /dev/null
+pushd "$YAY_DIR" >/dev/null
 sudo -u "$TARGET_USER" env HOME="/home/$TARGET_USER" \
   makepkg -si --noconfirm --needed
-popd > /dev/null
+popd >/dev/null
 rm -rf "$YAY_DIR"
 
 # --- PostgreSQL initialization ---
@@ -130,20 +136,20 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # -*- Configure firewalld: open common dev & service ports -*-
 systemctl enable --now firewalld
-firewall-cmd --permanent --add-port=22/tcp          # SSH
-firewall-cmd --permanent --add-port=80/tcp          # HTTP
-firewall-cmd --permanent --add-port=443/tcp         # HTTPS
-firewall-cmd --permanent --add-port=3000/tcp        # Dev servers (e.g., Next.js, React)
-firewall-cmd --permanent --add-port=5432/tcp        # PostgreSQL
-firewall-cmd --permanent --add-port=3306/tcp        # MySQL/MariaDB
-firewall-cmd --permanent --add-port=5433/tcp        # PostgreSQL (alternative, common in dev)
-firewall-cmd --permanent --add-port=6379/tcp        # Redis
-firewall-cmd --permanent --add-port=27017/tcp       # MongoDB
-firewall-cmd --permanent --add-port=9000/tcp        # Portainer, MinIO, etc.
-firewall-cmd --permanent --add-port=5000/tcp        # Flask, FastAPI dev
-firewall-cmd --permanent --add-port=8000/tcp        # Django, Vite, etc.
-firewall-cmd --permanent --add-port=1714-1764/tcp   # gsconnect
-firewall-cmd --permanent --add-port=1714-1764/udp   # gsconnect
+firewall-cmd --permanent --add-port=22/tcp        # SSH
+firewall-cmd --permanent --add-port=80/tcp        # HTTP
+firewall-cmd --permanent --add-port=443/tcp       # HTTPS
+firewall-cmd --permanent --add-port=3000/tcp      # Dev servers (e.g., Next.js, React)
+firewall-cmd --permanent --add-port=5432/tcp      # PostgreSQL
+firewall-cmd --permanent --add-port=3306/tcp      # MySQL/MariaDB
+firewall-cmd --permanent --add-port=5433/tcp      # PostgreSQL (alternative, common in dev)
+firewall-cmd --permanent --add-port=6379/tcp      # Redis
+firewall-cmd --permanent --add-port=27017/tcp     # MongoDB
+firewall-cmd --permanent --add-port=9000/tcp      # Portainer, MinIO, etc.
+firewall-cmd --permanent --add-port=5000/tcp      # Flask, FastAPI dev
+firewall-cmd --permanent --add-port=8000/tcp      # Django, Vite, etc.
+firewall-cmd --permanent --add-port=1714-1764/tcp # gsconnect
+firewall-cmd --permanent --add-port=1714-1764/udp # gsconnect
 
 # Enable common services (more robust than raw ports)
 firewall-cmd --permanent --add-service={http,https,ssh}

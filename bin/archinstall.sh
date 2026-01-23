@@ -259,10 +259,10 @@ install_base_system() {
 
     local base_packages=(
         # -*- Core System -*-
-        base              # Minimal package set to define a basic Arch Linux installation
-        base-devel        # Basic tools to build Arch Linux packages
-        linux-firmware    # Firmware files for Linux
-        linux-lts         # The LTS Linux kernel and modules
+        base           # Minimal package set to define a basic Arch Linux installation
+        base-devel     # Basic tools to build Arch Linux packages
+        linux-firmware # Firmware files for Linux
+        linux-lts      # The LTS Linux kernel and modules
 
         # -*- Filesystem -*-
         btrfs-progs # Btrfs filesystem utilities
