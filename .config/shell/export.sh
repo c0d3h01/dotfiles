@@ -32,11 +32,6 @@ ifsource() {
 	[ -f "$1" ] && . "$1"
 }
 
-# Rust Build Environment
-export CARGO_HOME="$HOME/.local/share/.cargo"
-ifsource "$HOME/.local/share/.cargo/env"
-add_to_path "$HOME/.local/share/.cargo/bin"
-
 # Android
 if [ -d "$HOME/Android" ]; then
 	export CHROME_EXECUTABLE="$BROWSER"
@@ -77,10 +72,10 @@ add_to_path "$HOME/.local/share/npm-global/bin"
 export BUN_INSTALL="$HOME/.local/share/bun"
 add_to_path "$BUN_INSTALL/bin"
 
-# Rust
-export RUSTUP_HOME="$HOME/.local/share/rustup"
-export CARGO_INSTALL_ROOT="$HOME/.local/share/cargo"
-add_to_path "$CARGO_INSTALL_ROOT" && add_to_path "$RUSTUP_HOME/bin"
+# Rust Build Environment
+export CARGO_HOME="$HOME/.local/share/.cargo"
+ifsource "$HOME/.local/share/.cargo/env"
+add_to_path "$HOME/.local/share/.cargo/bin"
 
 # Tool configs
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
