@@ -1,7 +1,7 @@
 [user]
   name = Harshal Sawant
-  email = harshalsawant.dev@gmail.com
-  signingkey = B4242C21BAF74B7C
+	email = harshalsawant.dev@gmail.com
+	signingkey = A7A7A1725FBF10AB04BF1355B4242C21BAF74B7C
 [core]
   editor = nvim
   longpaths = true
@@ -71,7 +71,7 @@
 [github]
   user = c0d3h01
 [gpg]
-  program = gpg
+	program = gpg
 [credential]
   helper = cache
 [filter "lfs"]
