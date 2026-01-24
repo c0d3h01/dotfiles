@@ -18,31 +18,38 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 
 # cd-ing settings
-setopt auto_cd                                         # automatically cd if folder name and no command found
-setopt auto_list                                       # automatically list choices on ambiguous completion
-setopt auto_menu                                       # automatically use menu completion
-setopt always_to_end                                   # move cursor to end if word had one match
-setopt interactive_comments                            # allow comments in interactive shells
-zstyle ':completion:*' menu select                     # select completions with arrow keys
-zstyle ':completion:*' group-name ''                   # group results by category
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' # non case sensitive complete
+setopt auto_cd
+setopt auto_list
+setopt auto_menu
+setopt always_to_end
+setopt interactive_comments
+zstyle ':completion:*' menu select
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "$LS_COLORS"
-zstyle ':completion:::::' completer _expand _complete _ignored _approximate # enable approximate matches for completion
+zstyle ':completion:::::' completer _expand _complete _ignored _approximate
 
-# autocompletions
+# Lazy load completions
 autoload -Uz compinit
+# Only regenerate compdump once a day
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C
+fi
+
 zmodload zsh/complist
-compinit
 
 # autosuggestions settings
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC="true"
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1  # Prevent rebinding on every prompt
 
 # fzf-tab
-zstyle ':completion:*:git-checkout:*' sort false # disable sorting for git-checkout
-zstyle ':fzf-tab:*' use-fzf-default-opts yes # use fzf default options
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 --color=always $realpath' # preview for cd
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 --color=always $realpath'
 
 # Helper function
 ifsource() { [ -f "$1" ] && source "$1"; }
@@ -62,13 +69,13 @@ ifsource "$HOME/.config/shell/function.sh"
 ifsource "$HOME/.config/shell/alias.sh"
 
 # Load direnv integration
-if [ -n "${commands[direnv]}" ]; then
-  eval "$(direnv hook zsh)"
+if command -v direnv >/dev/null 2>&1; then
+    eval "$(direnv hook zsh)"
 fi
 
 # Starship prompt
-if [ -n "${commands[starship]}" ]; then
-  eval "$(starship init zsh)"
+if command -v starship >/dev/null 2>&1; then
+    eval "$(starship init zsh)"
 fi
 
 # load nix
@@ -79,18 +86,51 @@ ifsource "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
 ifsource "$HOME/.local/share/zsh/.zsh_dir_hashes"
 
 # Source fzf
-[ -d "$HOME/.nix-profile/share/fzf" ] &&
-    source "$HOME/.nix-profile/share/fzf/completion.zsh" &&
+if [ -d "$HOME/.nix-profile/share/fzf" ]; then
+    source "$HOME/.nix-profile/share/fzf/completion.zsh"
     source "$HOME/.nix-profile/share/fzf/key-bindings.zsh"
+fi
 
 # Source colors for ls (trapd00r/LS_COLORS)
-eval "$(dircolors -b "$ZDOTDIR/dircolors")"
+[ -f "$ZDOTDIR/dircolors" ] && eval "$(dircolors -b "$ZDOTDIR/dircolors")"
 
-# Pyenv setup
+# LAZY LOAD NVM - Node Version Manager
+export NVM_DIR="$HOME/.local/share/nvm"
+nvm() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+    nvm "$@"
+}
+node() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+    node "$@"
+}
+npm() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+    npm "$@"
+}
+npx() {
+    unset -f nvm node npm npx
+    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+    npx "$@"
+}
+
+# LAZY LOAD PYENV
 export PYENV_ROOT="$HOME/.pyenv"
-[[ -d "$PYENV_ROOT/bin" ]] && add_to_path "$PYENV_ROOT/bin"
-if [ -n "${commands[pyenv]}" ]; then
-  eval "$(pyenv init - zsh)"
+if [[ -d "$PYENV_ROOT/bin" ]]; then
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    pyenv() {
+        unset -f pyenv
+        if command -v pyenv >/dev/null 2>&1; then
+            eval "$(pyenv init - zsh 2>/dev/null)"
+            pyenv "$@"
+        else
+            echo "pyenv not found"
+            return 1
+        fi
+    }
 fi
 
 # Vim mode
@@ -102,9 +142,8 @@ bindkey '^N' history-search-forward
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
-bindkey '^H' backward-kill-word # ctrl+bspc
-bindkey '^[^?' backward-kill-word # alt+bspc
-# bindkey '^r' history-incremental-search-backward
+bindkey '^H' backward-kill-word
+bindkey '^[^?' backward-kill-word
 bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
 bindkey '^xe' edit-command-line

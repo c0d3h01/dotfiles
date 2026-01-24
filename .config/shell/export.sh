@@ -19,7 +19,7 @@ fi
 
 # Helper functions
 add_to_path() {
-	if [ -d "$1" ] && ! echo "$PATH" | grep -q "(^|:)$1($|:)"; then
+	if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
 		if [ "$SHELL_TYPE" = "zsh" ]; then
 			path=("$1" $path)
 		else
@@ -55,10 +55,9 @@ export GOPATH="$HOME/.local/share/go"
 export GOBIN="$GOPATH/bin"
 add_to_path "$GOBIN"
 
-# nvm - node tool
+# NVM - Node Version Manager
 export NVM_DIR="$HOME/.local/share/nvm"
 [ -d "$NVM_DIR" ] || mkdir -p "$NVM_DIR"
-ifsource "$NVM_DIR/nvm.sh"
 
 # Other tools
 add_to_path "$HOME/.local/share/solana/install/active_release/bin"
@@ -74,7 +73,9 @@ add_to_path "$BUN_INSTALL/bin"
 
 # Rust Build Environment
 export CARGO_HOME="$HOME/.local/share/.cargo"
-ifsource "$HOME/.local/share/.cargo/env"
+if [ -f "$CARGO_HOME/env" ]; then
+    source "$CARGO_HOME/env"
+fi
 add_to_path "$HOME/.local/share/.cargo/bin"
 
 # Tool configs
