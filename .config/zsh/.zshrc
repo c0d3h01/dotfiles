@@ -31,14 +31,7 @@ zstyle ':completion:::::' completer _expand _complete _ignored _approximate
 
 # Lazy load completions
 autoload -Uz compinit
-# Only regenerate compdump once a day
-if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
-    compinit
-else
-    compinit -C
-fi
-
-zmodload zsh/complist
+compinit -C
 
 # autosuggestions settings
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
@@ -76,6 +69,11 @@ fi
 # Starship prompt
 if command -v starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"
+fi
+
+# kubectl completion
+if command -v kubectl >/dev/null 2>&1; then
+    source <(kubectl completion zsh)
 fi
 
 # load nix
