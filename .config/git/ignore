@@ -40,11 +40,11 @@ node_modules
 __debug_bin*
 debug.test*
 
-# nix
-shell.nix
-.envrc
-flake.nix
-flake.lock
+# # nix
+# shell.nix
+# .envrc
+# flake.nix
+# flake.lock
 
 # emacs
 .dir-locals.el
