@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/sh
 
 # Display PATH
 path() {
@@ -38,23 +38,6 @@ make() {
     [[ ! -f "$build_path/Makefile" ]] && build_path="."
     command nice -n 19 make -C "$build_path" -j"$(nproc)" "$@"
 }
-
-# Fuzzy edit
-fe() {
-    local file=$(fd --type f --hidden --exclude .git \
-        | fzf --height 40% --reverse --preview 'bat --color=always {}' --preview-window=right:60%)
-    [[ -n "$file" ]] && ${EDITOR:-vim} "$file"
-}
-
-# Kill process
-fkill() {
-    local pid=$(ps -ef | sed 1d | fzf -m --height 40% --reverse | awk '{print $2}')
-    [[ -n "$pid" ]] && echo "$pid" | xargs kill -${1:-15} && print "✓ Killed: $pid"
-}
-
-# Network
-myip() { curl -s https://api.ipify.org && echo; }
-localip() { ip -4 addr | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | grep -v 127.0.0.1; }
 
 # Docker cleanup
 dclean() {
