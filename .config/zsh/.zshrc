@@ -62,18 +62,27 @@ ifsource "$HOME/.config/shell/function.sh"
 ifsource "$HOME/.config/shell/alias.sh"
 
 # Load direnv integration
-if command -v direnv >/dev/null 2>&1; then
+if (( $+commands[direnv] )); then
     eval "$(direnv hook zsh)"
 fi
 
 # Starship prompt
-if command -v starship >/dev/null 2>&1; then
+if (( $+commands[starship] )); then
     eval "$(starship init zsh)"
 fi
 
-# kubectl completion
-if command -v kubectl >/dev/null 2>&1; then
-    source <(kubectl completion zsh)
+# kubectl completion (cached to avoid re-generating every shell startup)
+if (( $+commands[kubectl] )); then
+    _zsh_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+    _kubectl_comp_cache="$_zsh_cache_dir/kubectl-completion.zsh"
+    mkdir -p "$_zsh_cache_dir"
+
+    if [[ ! -s "$_kubectl_comp_cache" || "$_kubectl_comp_cache" -ot "$(command -v kubectl)" ]]; then
+        kubectl completion zsh >| "$_kubectl_comp_cache" 2>/dev/null
+    fi
+
+    [ -s "$_kubectl_comp_cache" ] && source "$_kubectl_comp_cache"
+    unset _zsh_cache_dir _kubectl_comp_cache
 fi
 
 # load nix
@@ -90,44 +99,35 @@ if [ -d "$HOME/.nix-profile/share/fzf" ]; then
 fi
 
 # Source colors for ls (trapd00r/LS_COLORS)
-[ -f "$ZDOTDIR/dircolors" ] && eval "$(dircolors -b "$ZDOTDIR/dircolors")"
+if [[ -z "${LS_COLORS:-}" && -f "$ZDOTDIR/dircolors" ]]; then
+    eval "$(dircolors -b "$ZDOTDIR/dircolors")"
+fi
+if [[ -n "${LS_COLORS:-}" ]]; then
+    zstyle ':completion:*' list-colors "$LS_COLORS"
+fi
 
-# LAZY LOAD NVM - Node Version Manager
-export NVM_DIR="$HOME/.local/share/nvm"
-nvm() {
-    unset -f nvm node npm npx
-    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-    nvm "$@"
-}
-node() {
-    unset -f nvm node npm npx
-    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-    node "$@"
-}
-npm() {
-    unset -f nvm node npm npx
-    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-    npm "$@"
-}
-npx() {
-    unset -f nvm node npm npx
-    [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-    npx "$@"
-}
+# Lazy-load runtime managers only when they are installed.
+export NVM_DIR="${NVM_DIR:-$HOME/.local/share/nvm}"
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+    _load_nvm() {
+        unset -f nvm node npm npx _load_nvm
+        source "$NVM_DIR/nvm.sh"
+    }
+    nvm() { _load_nvm; nvm "$@"; }
+    node() { _load_nvm; node "$@"; }
+    npm() { _load_nvm; npm "$@"; }
+    npx() { _load_nvm; npx "$@"; }
+fi
 
-# LAZY LOAD PYENV
-export PYENV_ROOT="$HOME/.pyenv"
+export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"
 if [[ -d "$PYENV_ROOT/bin" ]]; then
     export PATH="$PYENV_ROOT/bin:$PATH"
+fi
+if command -v pyenv >/dev/null 2>&1; then
     pyenv() {
         unset -f pyenv
-        if command -v pyenv >/dev/null 2>&1; then
-            eval "$(pyenv init - zsh 2>/dev/null)"
-            pyenv "$@"
-        else
-            echo "pyenv not found"
-            return 1
-        fi
+        eval "$(command pyenv init - zsh 2>/dev/null)"
+        pyenv "$@"
     }
 fi
 

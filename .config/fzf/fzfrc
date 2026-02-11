@@ -1,0 +1,9 @@
+# Preview pane: wrapped text, sharp border, 75% height, bottom placement.
+--preview-window=wrap:border-sharp:75%:bottom
+
+--bind=ctrl-a:first,ctrl-g:last
+--bind=ctrl-j:preview-down,ctrl-k:preview-up
+--bind=ctrl-t:preview-top,ctrl-b:preview-bottom
+
+# Accent color (Gruvbox purple).
+--color=pointer:#b16286
