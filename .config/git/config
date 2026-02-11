@@ -1,103 +1,116 @@
 [user]
   name = Harshal Sawant
-	email = harshalsawant.dev@gmail.com
-	signingkey = A7A7A1725FBF10AB04BF1355B4242C21BAF74B7C
+  email = harshalsawant.dev@gmail.com
+  signingKey = A7A7A1725FBF10AB04BF1355B4242C21BAF74B7C
+
 [core]
   editor = nvim
+  pager = delta
+  excludesFile = ~/.config/git/ignore
+  attributesFile = ~/.config/git/attributes
+  hooksPath = ~/.config/git/.git_template/hooks
   longpaths = true
-  compression = 9
-  pager = diff-so-fancy | less --tabs=4 -RFX
-  excludesfile = ~/.config/git/ignore
-  attributesfile = ~/.config/git/attributes
+
 [init]
-  templatedir = ~/.config/git/.git_template
   defaultBranch = main
+
 [color]
-  ui = always
+  ui = auto
+
 [delta]
   navigate = true
   side-by-side = true
   line-numbers = true
   syntax-theme = TwoDark
+
 [interactive]
-  singlekey = true
+  singleKey = true
   diffFilter = delta --color-only
+
+[commit]
+  gpgSign = true
+  verbose = true
+
+[gpg]
+  program = gpg
+
 [push]
   default = current
   autoSetupRemote = true
   followTags = true
   useForceIfIncludes = true
+
 [pull]
   rebase = true
   autostash = true
+
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+
+[branch]
+  sort = -committerdate
+
 [fetch]
   prune = true
   pruneTags = true
   writeCommitGraph = true
-  parallel = 0
-  fsckobjects = true
+
 [merge]
-  conflictstyle = zdiff3
-  ff = false
+  conflictStyle = zdiff3
+
 [diff]
   algorithm = histogram
   colorMoved = zebra
-  renames = copies
-[rebase]
-  autosquash = true
-  autoStash = true
-  updateRefs = true
-[branch]
-  sort = -committerdate
-[status]
-  submoduleSummary = true
-[log]
-  date = relative
+  renames = true
+
 [rerere]
   enabled = true
   autoupdate = true
-[feature]
-  manyFiles = true
-[index]
-  threads = true
-[commit]
-	gpgsign = true
-[hub]
-  protocol = ssh
+
+[status]
+  submoduleSummary = true
+
+[log]
+  date = relative
+
 [tag]
   sort = -taggerdate
-[url "git@github.com:"]
-  insteadOf = https://github.com/
-[github]
-  user = c0d3h01
-[gpg]
-	program = gpg
-[credential]
-  helper = cache
-[filter "lfs"]
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
-  required = true
-[transfer]
-  fsckobjects = true
-[protocol]
-  version = 2
-[submodule]
-  fetchJobs = 0
-  recurse = true
-[pack]
-  threads = 0
-  windowMemory = 256m
-[receive]
-  fsckObjects = true
+
 [gc]
-  auto = 256
   writeCommitGraph = true
-[help]
-  autocorrect = 20
+
+[maintenance]
+  auto = true
+
+[feature]
+  manyFiles = true
+
+[transfer]
+  fsckObjects = true
+
+[submodule]
+  recurse = true
+
 [blame]
   ignoreRevsFile = .git-blame-ignore-revs
+
+[credential]
+  helper = cache --timeout=7200
+
+[hub]
+  protocol = ssh
+
+[url "git@github.com:"]
+  insteadOf = https://github.com/
+
+[github]
+  user = c0d3h01
+
+[help]
+  autocorrect = prompt
+
 [alias]
   s = status --short --branch
   br = branch --all
@@ -105,7 +118,7 @@
   ds = diff --staged
   l = log --graph --oneline --decorate --all
   lg = log --graph --pretty=format:'%C(yellow)%h%Creset %C(cyan)%ad%Creset%C(red)%d%Creset %s %C(blue)[%an]%Creset' --date=short
-  f = fetch --all --prune
+  f = fetch --all --prune --prune-tags
   p = push
   pf = push --force-with-lease
   pl = pull
@@ -114,18 +127,21 @@
   ca = commit --all --message
   amend = commit --amend --no-edit
   wip = !git add -A && git commit -m 'WIP'
-  undo = reset HEAD~1 --mixed
-  unstage = reset HEAD --
-  ss = stash save
+  undo = reset --mixed HEAD~1
+  unstage = restore --staged --
+  ss = stash push
   sp = stash pop
   sl = stash list
   cp = cherry-pick
   rb = rebase --interactive
-  sync = !git fetch --all --prune && git pull --rebase
+  sync = !git fetch --all --prune --prune-tags && git pull --rebase --autostash
   recent = branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)'
   root = rev-parse --show-toplevel
+  last = log -1 --stat
+  conflicts = diff --name-only --diff-filter=U
   ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
+
 [sendemail]
-	smtpEncryption = tls
-	smtpUser = harshalsawant.dev@gmail.com
-	from = Harshal <harshalsawant.dev@gmail.com>
+  smtpEncryption = tls
+  smtpUser = harshalsawant.dev@gmail.com
+  from = Harshal <harshalsawant.dev@gmail.com>
