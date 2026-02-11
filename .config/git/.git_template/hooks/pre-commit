@@ -1,19 +1,27 @@
-#! /bin/sh
+#!/bin/sh
 
-
+# Warn on staged additions that contain profanity or conflict markers.
 SWEAR_WORDS='fuck|shit|crap|dammit|bitch|asshole'
-CHECK=$(git diff --staged | grep "^+" | grep -Ei "$SWEAR_WORDS" -c)
-if [ "$CHECK" -gt 0 ]
-then
-    # use ^[[31m for red foregroud
-    echo "[41m WARNING [00m $CHECK line(s) with swear words found"
-    git diff --name-only -G"$SWEAR_WORDS" | sed 's/^/> /'
+CONFLICT_MARKERS='<<<<<<<|=======|>>>>>>>'
+
+SWEAR_COUNT=$(
+  git diff --cached --unified=0 --no-color \
+    | grep '^+' \
+    | grep -v '^\+\+\+' \
+    | grep -Eic "$SWEAR_WORDS" || true
+)
+if [ "${SWEAR_COUNT:-0}" -gt 0 ]; then
+  printf '\033[41m WARNING \033[0m %s potential swear word line(s) found\n' "$SWEAR_COUNT"
+  git diff --cached --name-only -G"$SWEAR_WORDS" | sed 's/^/> /'
 fi
 
-CONFLICT_MARKERS='<<<<<<<|=======|>>>>>>>'
-CHECK2=$(git diff --staged | grep "^+" | grep -Ei "$CONFLICT_MARKERS" -c)
-if [ "$CHECK2" -gt 0 ]
-then
-    echo "[41m WARNING [00m Conflict markers sill preset"
-    git diff --name-only -G"$CONFLICT_MARKERS"
+CONFLICT_COUNT=$(
+  git diff --cached --unified=0 --no-color \
+    | grep '^+' \
+    | grep -v '^\+\+\+' \
+    | grep -Ec "$CONFLICT_MARKERS" || true
+)
+if [ "${CONFLICT_COUNT:-0}" -gt 0 ]; then
+  printf '\033[41m WARNING \033[0m %s conflict marker line(s) still present\n' "$CONFLICT_COUNT"
+  git diff --cached --name-only -G"$CONFLICT_MARKERS" | sed 's/^/> /'
 fi
