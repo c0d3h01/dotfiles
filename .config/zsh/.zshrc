@@ -106,29 +106,21 @@ if [[ -n "${LS_COLORS:-}" ]]; then
     zstyle ':completion:*' list-colors "$LS_COLORS"
 fi
 
-# Lazy-load runtime managers only when they are installed.
-export NVM_DIR="${NVM_DIR:-$HOME/.local/share/nvm}"
+# Runtime managers
+if [[ -d "$HOME/.nvm" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+fi
 if [[ -s "$NVM_DIR/nvm.sh" ]]; then
-    _load_nvm() {
-        unset -f nvm node npm npx _load_nvm
-        source "$NVM_DIR/nvm.sh"
-    }
-    nvm() { _load_nvm; nvm "$@"; }
-    node() { _load_nvm; node "$@"; }
-    npm() { _load_nvm; npm "$@"; }
-    npx() { _load_nvm; npx "$@"; }
+    source "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 fi
 
 export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"
-if [[ -d "$PYENV_ROOT/bin" ]]; then
+if [[ -d "$PYENV_ROOT/bin" && ":$PATH:" != *":$PYENV_ROOT/bin:"* ]]; then
     export PATH="$PYENV_ROOT/bin:$PATH"
 fi
 if command -v pyenv >/dev/null 2>&1; then
-    pyenv() {
-        unset -f pyenv
-        eval "$(command pyenv init - zsh 2>/dev/null)"
-        pyenv "$@"
-    }
+    eval "$(pyenv init - zsh)"
 fi
 
 # Vim mode
