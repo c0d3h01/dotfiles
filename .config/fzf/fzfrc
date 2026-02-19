@@ -1,5 +1,5 @@
-# Preview pane: wrapped text, sharp border, 75% height, bottom placement.
---preview-window=wrap:border-sharp:75%:bottom
+# Preview pane: wrapped text, sharp border, right-side split.
+--preview-window=right,55%,wrap,border-sharp
 
 --bind=ctrl-a:first,ctrl-g:last
 --bind=ctrl-j:preview-down,ctrl-k:preview-up
