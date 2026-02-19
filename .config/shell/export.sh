@@ -2,12 +2,20 @@
 
 export EDITOR="nvim"
 export VISUAL="nvim"
-export BROWSER="brave-browser"
+export BROWSER="firefox"
 export DIFFTOOL='icdiff'
 export LC_ALL="en_IN.UTF-8"
 export LANG="en_IN.UTF-8"
 export TERM="xterm-256color"
+export COLORTERM="truecolor"
+export CLICOLOR="1"
+export CLICOLOR_FORCE="1"
+export FORCE_COLOR="1"
 export FZF_DEFAULT_OPTS_FILE="$HOME/.config/fzf/fzfrc"
+
+if command -v dircolors >/dev/null 2>&1; then
+	eval "$(dircolors -b)"
+fi
 
 # Helper functions
 add_to_path() {
@@ -36,7 +44,7 @@ add_to_path "$JAVA_HOME/bin"
 add_to_path "$FLUTTER_HOME/bin"
 
 # Go
-export GOPATH="$HOME/.local/share/go"
+export GOPATH="$HOME/.go"
 export GOBIN="$GOPATH/bin"
 add_to_path "$GOBIN"
 
@@ -47,12 +55,13 @@ export K9S_CONFIG_DIR="$HOME/.config/k9s"
 # Local bins
 add_to_path "$HOME/.avm/bin"
 add_to_path "$HOME/.local/bin"
-add_to_path "$HOME/.local/share/npm-global/bin"
+add_to_path "$HOME/.npm-global/bin"
 
 # Bun
-export BUN_INSTALL="$HOME/.local/share/bun"
+export BUN_INSTALL="$HOME/.bun"
 add_to_path "$BUN_INSTALL/bin"
 
 # Rust Build Environment
-export CARGO_HOME="$HOME/.local/share/.cargo"
+export CARGO_HOME="$HOME/.cargo"
 add_to_path "$CARGO_HOME/bin"
+ifsource "$HOME/.cargo/env"
