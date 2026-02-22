@@ -1,14 +1,4 @@
-#!/usr/bin/env bash
-#
-# ==============================================================================
-# -*- Automated Arch Linux Installation Personal Setup Script -*-
-# ==============================================================================
-#
-# Personal setup for: c0d3h01
-# Desktop: GNOME with full setup
-# Hardware: AMD CPU/GPU, NVMe drive
-#
-# ==============================================================================
+#!/usr/bin/sh
 
 set -euo pipefail
 
@@ -20,7 +10,7 @@ readonly BLUE='\033[0;34m'
 readonly NC='\033[0m'
 
 # -*- Global variables -*-
-declare -A CONFIG
+declare -a CONFIG
 readonly LOG_FILE="/tmp/archinstall-$(date +%Y%m%d-%H%M%S).log"
 
 # -*- Logging functions -*-
@@ -467,6 +457,12 @@ sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 sed -i 's/^#Color/Color/' /etc/pacman.conf
 sed -i '/^# Misc options/a DisableDownloadTimeout\nILoveCandy' /etc/pacman.conf
 sed -i '/#\[multilib\]/,/#Include = \/etc\/pacman.d\/mirrorlist/ s/^#//' /etc/pacman.conf
+
+# Disable PowerSaving over NetworkManager
+if command -v NetworkManager >/dev/null 2>&1; then
+	mkdir -p "/etc/NetworkManager/conf.d/wifi-powersave.conf"
+	printf "[connection]\nwifi.powersave=%s\n" "2" >"/etc/NetworkManager/conf.d/wifi-powersave.conf
+fi
 
 # Enable services
 systemctl enable NetworkManager

@@ -1,6 +1,6 @@
 color:
-    when: auto
-    theme: custom
+    when: always
+    theme: default
 size: short
 total-size: false
 indicators: false

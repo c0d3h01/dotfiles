@@ -5,17 +5,17 @@ MSG_FILE="$1"
 FIRST_LINE="$(sed -n '1p' "$MSG_FILE")"
 
 case "$FIRST_LINE" in
-  \[*\]\ *)
-    exit 0
-    ;;
-  Merge\ *|Revert\ *|fixup!\ *|squash!\ *)
-    exit 0
-    ;;
+\[*\]\ *)
+	exit 0
+	;;
+Merge\ * | Revert\ * | fixup!\ * | squash!\ *)
+	exit 0
+	;;
 esac
 
 FOLDER="$(
-  git diff --cached --name-only \
-    | awk -F/ '
+	git diff --cached --name-only |
+		awk -F/ '
         NF == 1 { counts["root"]++; next }
         { counts[$1]++ }
         END {
@@ -35,7 +35,7 @@ FOLDER="$(
 
 TMP_FILE="${MSG_FILE}.tmp.$$"
 {
-  printf '[%s] %s\n' "$FOLDER" "$FIRST_LINE"
-  sed -n '2,$p' "$MSG_FILE"
-} > "$TMP_FILE"
+	printf '[%s] %s\n' "$FOLDER" "$FIRST_LINE"
+	sed -n '2,$p' "$MSG_FILE"
+} >"$TMP_FILE"
 mv "$TMP_FILE" "$MSG_FILE"

@@ -2,7 +2,7 @@
 
 export EDITOR="nvim"
 export VISUAL="nvim"
-export BROWSER="firefox"
+export BROWSER="brave-browser"
 export DIFFTOOL='icdiff'
 export LC_ALL="en_IN.UTF-8"
 export LANG="en_IN.UTF-8"
@@ -20,7 +20,7 @@ fi
 # Helper functions
 add_to_path() {
 	if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
-			export PATH="$1:$PATH"
+		export PATH="$1:$PATH"
 	fi
 }
 ifsource() {

@@ -1,4 +1,7 @@
-README.md
-.gitmodules
-.gitattributes
-.gitignore
+^README.md$
+^\.gitmodules$
+^\.gitattributes$
+^\.gitignore$
+^\.git$
+^\.stow-local-ignore$
+^\.github$
