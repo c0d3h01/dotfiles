@@ -1,6 +1,2 @@
 .gdb_history
 .zcompdump
-!.envrc
-!flake.nix
-!flake.lock
-!AGENTS.md
