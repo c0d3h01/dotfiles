@@ -1,8 +1,14 @@
 #!/usr/bin/env zsh
 
-alias ls='ls --color=always'
-alias ll='ls -lh --color=always'
-alias la='ls -A --color=always'
+if command -v lsd >/dev/null 2>&1; then
+	alias ls='lsd'
+	alias ll='lsd -lh'
+	alias la='lsd -A'
+else
+	alias ls='ls --color=always'
+	alias ll='ls -lh --color=always'
+	alias la='ls -A --color=always'
+fi
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
