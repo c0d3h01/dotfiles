@@ -1,12 +1,12 @@
-[submodule ".config/zsh/plugins/completions"]
-	path = .config/zsh/plugins/completions
+[submodule "completions"]
+	path = .completions
 	url = https://github.com/zsh-users/zsh-completions.git
-[submodule ".config/zsh/plugins/autosuggestions"]
-	path = .config/zsh/plugins/autosuggestions
+[submodule "autosuggestions"]
+	path = .autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
-[submodule ".config/zsh/plugins/fast-syntax-highlighting"]
-	path = .config/zsh/plugins/fast-syntax-highlighting
+[submodule "fast-syntax-highlighting"]
+	path = .fast-syntax-highlighting
 	url = https://github.com/zdharma-continuum/fast-syntax-highlighting
-[submodule ".config/zsh/plugins/fzf-tab"]
-	path = .config/zsh/plugins/fzf-tab
+[submodule "fzf-tab"]
+	path = .fzf-tab
 	url = https://github.com/Aloxaf/fzf-tab
