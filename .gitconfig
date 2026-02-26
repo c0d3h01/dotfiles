@@ -1,0 +1,147 @@
+[user]
+  name = Harshal Sawant
+  email = harshalsawant.dev@gmail.com
+  signingKey = A7A7A1725FBF10AB04BF1355B4242C21BAF74B7C
+
+[core]
+  editor = nvim
+  pager = delta
+  excludesFile = ~/.gitignore_global
+  attributesFile = ~/.gitattributes
+  hooksPath = ~/.git_template/hooks
+  longpaths = true
+
+[init]
+  defaultBranch = main
+
+[color]
+  ui = auto
+
+[delta]
+  navigate = true
+  side-by-side = true
+  line-numbers = true
+  syntax-theme = TwoDark
+
+[interactive]
+  singleKey = true
+  diffFilter = delta --color-only
+
+[commit]
+  gpgSign = true
+  verbose = true
+
+[gpg]
+  program = gpg
+
+[push]
+  default = current
+  autoSetupRemote = true
+  followTags = true
+  useForceIfIncludes = true
+
+[pull]
+  rebase = true
+  autostash = true
+
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+
+[branch]
+  sort = -committerdate
+
+[fetch]
+  prune = true
+  pruneTags = true
+  writeCommitGraph = true
+
+[merge]
+  conflictStyle = zdiff3
+
+[diff]
+  algorithm = histogram
+  colorMoved = zebra
+  renames = true
+
+[rerere]
+  enabled = true
+  autoupdate = true
+
+[status]
+  submoduleSummary = true
+
+[log]
+  date = relative
+
+[tag]
+  sort = -taggerdate
+
+[gc]
+  writeCommitGraph = true
+
+[maintenance]
+  auto = true
+
+[feature]
+  manyFiles = true
+
+[transfer]
+  fsckObjects = true
+
+[submodule]
+  recurse = true
+
+[blame]
+  ignoreRevsFile = .git-blame-ignore-revs
+
+[credential]
+  helper = cache --timeout=7200
+
+[hub]
+  protocol = ssh
+
+[url "git@github.com:"]
+  insteadOf = https://github.com/
+
+[github]
+  user = c0d3h01
+
+[help]
+  autocorrect = prompt
+
+[alias]
+  s = status --short --branch
+  br = branch --all
+  d = diff
+  ds = diff --staged
+  l = log --graph --oneline --decorate --all
+  lg = log --graph --pretty=format:'%C(yellow)%h%Creset %C(cyan)%ad%Creset%C(red)%d%Creset %s %C(blue)[%an]%Creset' --date=short
+  f = fetch --all --prune --prune-tags
+  p = push
+  pf = push --force-with-lease
+  pl = pull
+  c = commit
+  cm = commit --message
+  ca = commit --all --message
+  amend = commit --amend --no-edit
+  wip = !git add -A && git commit -m 'WIP'
+  undo = reset --mixed HEAD~1
+  unstage = restore --staged --
+  ss = stash push
+  sp = stash pop
+  sl = stash list
+  cp = cherry-pick
+  rb = rebase --interactive
+  sync = !git fetch --all --prune --prune-tags && git pull --rebase --autostash
+  recent = branch --sort=-committerdate --format='%(committerdate:relative)%09%(refname:short)'
+  root = rev-parse --show-toplevel
+  last = log -1 --stat
+  conflicts = diff --name-only --diff-filter=U
+  ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi"
+
+[sendemail]
+  smtpEncryption = tls
+  smtpUser = harshalsawant.dev@gmail.com
+  from = Harshal <harshalsawant.dev@gmail.com>
