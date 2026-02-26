@@ -18,18 +18,28 @@ end
 local keys = {
   { key = "c", mods = "CTRL|SHIFT", action = act.CopyTo("Clipboard") },
   { key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom("Clipboard") },
+  { key = "t", mods = "CTRL|SHIFT", action = act.SpawnTab("CurrentPaneDomain") },
+  { key = "w", mods = "CTRL|SHIFT", action = act.CloseCurrentTab({ confirm = false }) },
+  { key = "right", mods = "CTRL|SHIFT", action = act.ActivateTabRelative(1) },
+  { key = "left", mods = "CTRL|SHIFT", action = act.ActivateTabRelative(-1) },
+  { key = "1", mods = "CTRL|SHIFT", action = act.ActivateTab(0) },
+  { key = "2", mods = "CTRL|SHIFT", action = act.ActivateTab(1) },
+  { key = "3", mods = "CTRL|SHIFT", action = act.ActivateTab(2) },
+  { key = "4", mods = "CTRL|SHIFT", action = act.ActivateTab(3) },
+  { key = "5", mods = "CTRL|SHIFT", action = act.ActivateTab(4) },
+  { key = "6", mods = "CTRL|SHIFT", action = act.ActivateTab(5) },
+  { key = "7", mods = "CTRL|SHIFT", action = act.ActivateTab(6) },
+  { key = "8", mods = "CTRL|SHIFT", action = act.ActivateTab(7) },
+  { key = "9", mods = "CTRL|SHIFT", action = act.ActivateTab(8) },
+  { key = "enter", mods = "CTRL|SHIFT", action = act.SpawnWindow },
+  { key = "=", mods = "CTRL|SHIFT", action = act.IncreaseFontSize },
+  { key = "-", mods = "CTRL|SHIFT", action = act.DecreaseFontSize },
+  { key = "0", mods = "CTRL|SHIFT", action = act.ResetFontSize },
 }
 
 -- Tabs
-add_all(keys, leader_binds("t", act.SpawnTab("CurrentPaneDomain")))
-add_all(keys, leader_binds("q", act.CloseCurrentTab({ confirm = false })))
 add_all(keys, leader_binds("r", act.ActivateTabRelative(-1)))
 add_all(keys, leader_binds("f", act.ActivateTabRelative(1)))
-add_all(keys, leader_binds("1", act.ActivateTab(0)))
-add_all(keys, leader_binds("2", act.ActivateTab(1)))
-add_all(keys, leader_binds("3", act.ActivateTab(2)))
-add_all(keys, leader_binds("4", act.ActivateTab(3)))
-add_all(keys, leader_binds("5", act.ActivateTab(4)))
 
 -- Panes
 add_all(keys, leader_binds("c", act.SplitHorizontal({ domain = "CurrentPaneDomain" })))
@@ -56,9 +66,6 @@ add_all(keys, {
 -- Search/URL/UI
 add_all(keys, leader_binds("g", act.Search("CurrentSelectionOrEmptyString")))
 add_all(keys, leader_binds("b", act.ToggleFullScreen))
-add_all(keys, leader_binds("=", act.IncreaseFontSize))
-add_all(keys, leader_binds("-", act.DecreaseFontSize))
-add_all(keys, leader_binds("0", act.ResetFontSize))
 add_all(keys, {
   {
     key = "mapped:u",
