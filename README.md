@@ -2,17 +2,11 @@
 
 Managed with GNU Stow directly from repository root.
 
-## layout
-
-- top-level home files in root (for example `.zprofile`, `.gdbinit`)
-- app configs under `.config/`
-
 ## install
 
 ```bash
 git clone --recurse-submodules https://github.com/c0d3h01/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-git submodule update --init --recursive
 stow -nv --target="$HOME" .
 stow --restow --target="$HOME" .
 ```
