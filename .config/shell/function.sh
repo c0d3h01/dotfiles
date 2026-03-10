@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
 
-# Display PATH
-path() {
-	if command -v bat >/dev/null 2>&1; then
-		printf '%s\n' "$PATH" | tr ':' '\n' | command bat --language=bash --style=plain 2>/dev/null || printf '%s\n' "$PATH" | tr ':' '\n'
-	else
-		printf '%s\n' "$PATH" | tr ':' '\n'
-	fi
-}
-
 # Extract archives
 extract() {
 	local file="${1:-}"
@@ -61,12 +52,4 @@ make() {
 	build_path="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 	[[ ! -f "$build_path/Makefile" ]] && build_path="."
 	command nice -n 19 make -C "$build_path" -j"$(nproc)" "$@"
-}
-
-# Docker cleanup
-dclean() {
-	docker container prune -f
-	docker image prune -af
-	docker volume prune -f
-	echo "Docker cleaned"
 }

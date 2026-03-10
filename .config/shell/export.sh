@@ -7,15 +7,9 @@ export MANPAGER="nvim +Man!"
 export MANWIDTH=999
 export BROWSER="brave-browser"
 export DIFFTOOL="icdiff"
-
 export LC_ALL="en_IN.UTF-8"
 export LANG="en_IN.UTF-8"
-
 export TERM="xterm-256color"
-export COLORTERM="truecolor"
-export CLICOLOR=1
-export CLICOLOR_FORCE=1
-export FORCE_COLOR=1
 
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
@@ -58,16 +52,9 @@ add_to_path "/usr/local/go/bin"
 
 export CARGO_HOME="${CARGO_HOME:-$HOME/.cargo}"
 export RUSTUP_HOME="${RUSTUP_HOME:-$HOME/.rustup}"
-export CARGO_INCREMENTAL=1
-export CARGO_NET_GIT_FETCH_WITH_CLI=true
 add_to_path "$CARGO_HOME/bin"
 [[ -f "$CARGO_HOME/env" ]] && source "$CARGO_HOME/env"
 
-export PYTHONDONTWRITEBYTECODE=1
-export PYTHONUNBUFFERED=1
-export PIP_REQUIRE_VIRTUALENV=1
-export PIPENV_VENV_IN_PROJECT=1
-export VIRTUAL_ENV_DISABLE_PROMPT=1
 export PYTHON_HISTORY="${XDG_STATE_HOME}/python/history"
 [[ -d "${PYTHON_HISTORY:h}" ]] || mkdir -p "${PYTHON_HISTORY:h}"
 export UV_CACHE_DIR="${XDG_CACHE_HOME}/uv"
