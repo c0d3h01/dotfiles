@@ -1,26 +1,25 @@
-theme = catppuccin-mocha
+theme = Solarized Dark Patched
 
 # Font config
-font-size = 12
-font-family = DejaVu Sans Mono
+font-size = 13
+font-family = JetBrainsMono Nerd Font
 
 # Background transperancy
 background-opacity = 0.85
 background-blur-radius = 20
 
 # Window
-window-padding-x = 14
-window-padding-y = 14
-confirm-close-surface=false
-resize-overlay = never
-shell-integration = zsh
 gtk-titlebar = true
+confirm-close-surface=false
+# shell-integration =
+
+# Clipboard
 clipboard-read = allow
 clipboard-write = allow
 
-# Macos - sets
+# macOS settings
+macos-non-native-fullscreen = false
 macos-option-as-alt = true
-macos-non-native-fullscreen = visible-menu
 mouse-hide-while-typing = true
 
 # Keybinding
