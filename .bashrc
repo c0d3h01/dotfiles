@@ -46,9 +46,9 @@ if ! shopt -oq posix; then
 fi
 
 # Custom configs
-ifsource "$HOME/.config/shell/export.sh"
-ifsource "$HOME/.config/shell/function.sh"
-ifsource "$HOME/.config/shell/alias.sh"
+ifsource "$HOME/.shell_export.sh"
+ifsource "$HOME/.shell_function.sh"
+ifsource "$HOME/.shell_alias.sh"
 
 # Load direnv integration
 if command -v direnv &>/dev/null; then
