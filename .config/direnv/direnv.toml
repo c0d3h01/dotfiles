@@ -1,0 +1,4 @@
+[global]
+log_filter="^$"
+hide_env_diff = true
+silent = true
