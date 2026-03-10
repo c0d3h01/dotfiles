@@ -73,9 +73,9 @@ ifsource "$HOME/.autosuggestions/zsh-autosuggestions.plugin.zsh"
 ifsource "$HOME/.fzf-tab/fzf-tab.plugin.zsh"
 ifsource "$HOME/.fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
-ifsource "$HOME/.config/shell/export.sh"
-ifsource "$HOME/.config/shell/function.sh"
-ifsource "$HOME/.config/shell/alias.sh"
+ifsource "$HOME/.shell_export.sh"
+ifsource "$HOME/.shell_function.sh"
+ifsource "$HOME/.shell_alias.sh"
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 (( $+commands[starship] )) && eval "$(starship init zsh)"
