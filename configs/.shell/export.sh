@@ -38,12 +38,12 @@ export FZF_DEFAULT_OPTS='
 
 # LS_COLORS
 if command -v dircolors >/dev/null 2>&1; then
-    eval "$(dircolors -b)"
+  eval "$(dircolors -b)"
 fi
 
 # PATH helper — idempotent prepend
 add_to_path() {
-    [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && export PATH="$1:$PATH"
+  [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && export PATH="$1:$PATH"
 }
 
 # Go
@@ -107,12 +107,12 @@ export REDISCLI_HISTFILE="${XDG_STATE_HOME}/redis/history"
 export PSQL_HISTORY="${XDG_STATE_HOME}/psql/history"
 export MYSQL_HISTFILE="${XDG_STATE_HOME}/mysql/history"
 for _hist_dir in \
-    "${SQLITE_HISTORY:h}" \
-    "${REDISCLI_HISTFILE:h}" \
-    "${PSQL_HISTORY:h}" \
-    "${MYSQL_HISTFILE:h}"
+  "${SQLITE_HISTORY:h}" \
+  "${REDISCLI_HISTFILE:h}" \
+  "${PSQL_HISTORY:h}" \
+  "${MYSQL_HISTFILE:h}"
 do
-    [[ -d "$_hist_dir" ]] || mkdir -p "$_hist_dir"
+  [[ -d "$_hist_dir" ]] || mkdir -p "$_hist_dir"
 done
 unset _hist_dir
 

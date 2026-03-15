@@ -24,40 +24,38 @@ ifsource() { [ -f "$1" ] && source "$1"; }
 
 # Fzf Key Bindings
 if [ -f /usr/share/fzf/key-bindings.bash ]; then
-	source /usr/share/fzf/key-bindings.bash
+  source /usr/share/fzf/key-bindings.bash
 elif [ -f "$HOME/.fzf/shell/key-bindings.bash" ]; then
-	source "$HOME/.fzf/shell/key-bindings.bash"
+  source "$HOME/.fzf/shell/key-bindings.bash"
 fi
 
 # Fzf Auto-Completion
 if [ -f /usr/share/fzf/completion.bash ]; then
-	source /usr/share/fzf/completion.bash
+  source /usr/share/fzf/completion.bash
 elif [ -f "$HOME/.fzf/shell/completion.bash" ]; then
-	source "$HOME/.fzf/shell/completion.bash"
+  source "$HOME/.fzf/shell/completion.bash"
 fi
 
 # Enable programmable completion features
 if ! shopt -oq posix; then
-	if [ -f /usr/share/bash-completion/bash_completion ]; then
-		source /usr/share/bash-completion/bash_completion
-	elif [ -f /etc/bash_completion ]; then
-		source /etc/bash_completion
-	fi
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    source /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+  fi
 fi
 
 # Custom configs
-ifsource "$HOME/.shell_export.sh"
-ifsource "$HOME/.shell_function.sh"
-ifsource "$HOME/.shell_alias.sh"
+ifsource "$HOME/.shell/*.sh"
 
 # Load direnv integration
 if command -v direnv &>/dev/null; then
-	eval "$(direnv hook bash)"
+  eval "$(direnv hook bash)"
 fi
 
 # Starship prompt
 if command -v starship >/dev/null 2>&1; then
-	eval "$(starship init bash)"
+  eval "$(starship init bash)"
 fi
 
 # Emacs mode (prevents accidental overwrite from vi command mode)
@@ -84,11 +82,11 @@ bind "\"\e[1;5C\":forward-word"
 
 # Enable color support
 if [ -x /usr/bin/dircolors ]; then
-	if [ -r "$HOME/.dircolors" ]; then
-		eval "$(dircolors -b "$HOME/.dircolors")"
-	elif [ -r "$HOME/dircolors" ]; then
-		eval "$(dircolors -b "$HOME/dircolors")"
-	else
-		eval "$(dircolors -b)"
-	fi
+  if [ -r "$HOME/.dircolors" ]; then
+    eval "$(dircolors -b "$HOME/.dircolors")"
+  elif [ -r "$HOME/dircolors" ]; then
+    eval "$(dircolors -b "$HOME/dircolors")"
+  else
+    eval "$(dircolors -b)"
+  fi
 fi
