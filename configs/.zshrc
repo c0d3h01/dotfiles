@@ -95,7 +95,10 @@ command_not_found_handler() {
 }
 
 # Shell config modules
-ifsource "$HOME/.shell/*.sh"
+for _shell_module in "$HOME"/.shell/*.sh; do
+  [[ -f $_shell_module ]] && source "$_shell_module"
+done
+unset _shell_module
 
 # direnv
 if (( $+commands[direnv] )); then
