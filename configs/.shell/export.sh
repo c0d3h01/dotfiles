@@ -12,7 +12,7 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less"
 export MANPAGER="nvim +Man!"
-export BROWSER="brave-browser"
+export BROWSER="firefox"
 export DIFFTOOL="icdiff"
 export LC_ALL="en_IN.UTF-8"
 export LANG="en_IN.UTF-8"
@@ -100,21 +100,6 @@ add_to_path "$HOME/.foundry/bin"
 # Tool config paths
 export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/ripgreprc"
 export WGETRC="${XDG_CONFIG_HOME}/wget/wgetrc"
-
-# DB history — keep dot files out of $HOME
-export SQLITE_HISTORY="${XDG_STATE_HOME}/sqlite/history"
-export REDISCLI_HISTFILE="${XDG_STATE_HOME}/redis/history"
-export PSQL_HISTORY="${XDG_STATE_HOME}/psql/history"
-export MYSQL_HISTFILE="${XDG_STATE_HOME}/mysql/history"
-for _hist_dir in \
-  "${SQLITE_HISTORY:h}" \
-  "${REDISCLI_HISTFILE:h}" \
-  "${PSQL_HISTORY:h}" \
-  "${MYSQL_HISTFILE:h}"
-do
-  [[ -d "$_hist_dir" ]] || mkdir -p "$_hist_dir"
-done
-unset _hist_dir
 
 # User-local binaries
 add_to_path "$HOME/.local/bin"
