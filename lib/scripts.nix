@@ -8,16 +8,12 @@ in
     text = ''
             cat <<'EOF'
       Commands:
-        help                 Show this help
-        hm-build [profile]   Build Home Manager
-        hm-switch [profile]  Switch Home Manager
-
-      Default profile:
-        c0d3h01@''${NIX_SYSTEM:-x86_64-linux}
+        hm-build [profile]   Build profile (default: c0d3h01)
+        hm-switch [profile]  Switch profile (default: c0d3h01)
 
       Examples:
-        nix run .#help
-        nix run .#hm-build -- c0d3h01@x86_64-linux
+        nix run .#hm-build
+        nix run .#hm-switch
         nix run .#hm-switch -- c0d3h01@x86_64-linux
       EOF
     '';
@@ -30,8 +26,11 @@ in
       nix
     ];
     text = ''
-      PROFILE="''${1:-c0d3h01@''${NIX_SYSTEM:-x86_64-linux}}"
-      exec home-manager switch --flake ".#''${PROFILE}"
+      PROFILE="''${1:-c0d3h01}"
+      exec home-manager switch \
+        --flake ".#''${PROFILE}" \
+        --extra-experimental-features 'nix-command flakes' \
+        -b backup
     '';
   };
 
@@ -42,7 +41,7 @@ in
       nix
     ];
     text = ''
-      PROFILE="''${1:-c0d3h01@''${NIX_SYSTEM:-x86_64-linux}}"
+      PROFILE="''${1:-c0d3h01}"
       exec home-manager build --flake ".#''${PROFILE}"
     '';
   };
