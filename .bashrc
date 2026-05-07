@@ -45,9 +45,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Custom configs
-ifsource "$HOME/.shell/*.sh"
-
 # Load direnv integration
 if command -v direnv &>/dev/null; then
   eval "$(direnv hook bash)"
@@ -57,6 +54,11 @@ fi
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
 fi
+
+# Custom configs
+ifsource "$HOME/.export.sh"
+ifsource "$HOME/.function.sh"
+ifsource "$HOME/.alias.sh"
 
 # Emacs mode (prevents accidental overwrite from vi command mode)
 set -o emacs

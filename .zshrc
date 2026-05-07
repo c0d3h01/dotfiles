@@ -94,12 +94,6 @@ command_not_found_handler() {
   return 127
 }
 
-# Shell config modules
-for _shell_module in "$HOME"/.shell/*.sh; do
-  [[ -f $_shell_module ]] && source "$_shell_module"
-done
-unset _shell_module
-
 # direnv
 if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
@@ -124,13 +118,6 @@ if (( $+commands[kubectl] )); then
   unset _zsh_cache_dir _kubectl_comp_cache
 fi
 
-# Nix
-ifsource /etc/profile.d/nix.sh
-ifsource "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-# ifsource "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-# ifsource "$HOME/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh"
-# ifsource "/etc/profiles/per-user/c0d3h01/etc/profile.d/hm-session-vars.sh"
-
 # Named dir hashes
 ifsource "$HOME/.local/share/zsh/.zsh_dir_hashes"
 
@@ -148,34 +135,44 @@ if [[ -n ${LS_COLORS:-} ]]; then
   zstyle ':completion:*' list-colors "$LS_COLORS"
 fi
 
-# NVM
-export NVM_DIR="$HOME/.config/nvm"
-_lazy_load_nvm() {
-  [[ ${_NVM_LOADED:-0} -eq 1 ]] && return 0
-  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-  [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
-  command -v nvm >/dev/null 2>&1 && nvm use --silent default >/dev/null 2>&1 || true
-  typeset -g _NVM_LOADED=1
-}
+# # NVM
+# export NVM_DIR="$HOME/.nvm"
+# _lazy_load_nvm() {
+#   [[ ${_NVM_LOADED:-0} -eq 1 ]] && return 0
+#   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+#   [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+#   command -v nvm >/dev/null 2>&1 && nvm use --silent default >/dev/null 2>&1 || true
+#   typeset -g _NVM_LOADED=1
+# }
 
-# Ensure default Node version/global npm binaries are available in every new shell.
-_lazy_load_nvm
+# # Ensure default Node version/global npm binaries are available in every new shell.
+# _lazy_load_nvm
 
-# pyenv
-export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"
-if [[ -d "$PYENV_ROOT/bin" && ":$PATH:" != *":$PYENV_ROOT/bin:"* ]]; then
-  export PATH="$PYENV_ROOT/bin:$PATH"
-fi
-if [[ -d "$PYENV_ROOT/shims" && ":$PATH:" != *":$PYENV_ROOT/shims:"* ]]; then
-  export PATH="$PYENV_ROOT/shims:$PATH"
-fi
-if command -v pyenv >/dev/null 2>&1; then
-  pyenv() {
-    unset -f pyenv
-    eval "$(command pyenv init - zsh)"
-    pyenv "$@"
-  }
-fi
+# # pyenv
+# export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"
+# if [[ -d "$PYENV_ROOT/bin" && ":$PATH:" != *":$PYENV_ROOT/bin:"* ]]; then
+#   export PATH="$PYENV_ROOT/bin:$PATH"
+# fi
+# if [[ -d "$PYENV_ROOT/shims" && ":$PATH:" != *":$PYENV_ROOT/shims:"* ]]; then
+#   export PATH="$PYENV_ROOT/shims:$PATH"
+# fi
+# if command -v pyenv >/dev/null 2>&1; then
+#   pyenv() {
+#     unset -f pyenv
+#     eval "$(command pyenv init - zsh)"
+#     pyenv "$@"
+#   }
+# fi
+
+# Custom configs
+ifsource "$HOME/.export.sh"
+ifsource "$HOME/.function.sh"
+ifsource "$HOME/.alias.sh"
+
+# zi plugin manager
+# sh -c "$(curl -fsSL get.zshell.dev)" -- -i skip -b main
+# zi light z-shell/zsh-lsd
+ifsource "$HOME/.zi/bin/zi.zsh"
 
 # Keybindings — emacs mode
 zmodload zsh/terminfo # required for $terminfo[] lookups below

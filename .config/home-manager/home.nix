@@ -3,8 +3,6 @@ let
   inherit (pkgs) lib stdenv;
 in
 {
-  imports = [ ./modules/default.nix ];
-
   home.username = "c0d3h01";
   home.homeDirectory = "/home/c0d3h01";
   home.stateVersion = "25.11";
@@ -60,7 +58,7 @@ in
     ++ lib.optionals stdenv.isLinux (
       with pkgs;
       [
-        brave
+        # brave
         xclip
       ]
     );

@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-# Sourced by zshrc — must stay sh-compatible except where noted (zsh :h modifier)
 
 # XDG base dirs — must come first; everything below may reference these
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
@@ -16,10 +15,8 @@ export BROWSER="firefox"
 export DIFFTOOL="icdiff"
 export LC_ALL="en_IN.UTF-8"
 export LANG="en_IN.UTF-8"
-# Do NOT export TERM here — let the terminal emulator set it.
-# Hardcoding it breaks tmux, SSH, and any non-xterm terminal.
 export GPG_TTY="$(tty)"
-export GNUPGHOME="${XDG_DATA_HOME}/gnupg"  # moved after XDG_DATA_HOME is set
+# export GNUPGHOME="${XDG_DATA_HOME}/gnupg"
 
 # less
 export LESS="-R -F -X -i -J --tabs=4"
@@ -45,6 +42,12 @@ fi
 add_to_path() {
   [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && export PATH="$1:$PATH"
 }
+
+# Nix
+ifsource /etc/profile.d/nix.sh
+ifsource "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+# ifsource "$HOME/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh"
+# ifsource "/etc/profiles/per-user/c0d3h01/etc/profile.d/hm-session-vars.sh"
 
 # Go
 export GOPATH="$HOME/.go"
@@ -99,7 +102,7 @@ add_to_path "$HOME/.foundry/bin"
 
 # Tool config paths
 export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/ripgreprc"
-export WGETRC="${XDG_CONFIG_HOME}/wget/wgetrc"
+export WGETRC="${XDG_DATA_HOME}/.wgetrc"
 
 # User-local binaries
 add_to_path "$HOME/.local/bin"
