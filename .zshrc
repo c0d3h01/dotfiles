@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-[[ -o interactive ]] || return
-
 # History
 export DISABLE_AUTO_TITLE="true"
 export COMPLETION_WAITING_DOTS="false"
@@ -80,20 +78,6 @@ unset _nix_fsh
 # Source helper — no-op if file missing
 ifsource() { [[ -f $1 ]] && source "$1"; }
 
-# Skip slow package-manager lookup on unknown commands
-command_not_found_handler() {
-  if [[ ${_NVM_LOADED:-0} -eq 0 ]]; then
-    _lazy_load_nvm
-    if (( $+commands[$1] || $+functions[$1] )); then
-      "$@"
-      return $?
-    fi
-  fi
-
-  print -u2 "zsh: command not found: $1"
-  return 127
-}
-
 # direnv
 if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
@@ -135,44 +119,28 @@ if [[ -n ${LS_COLORS:-} ]]; then
   zstyle ':completion:*' list-colors "$LS_COLORS"
 fi
 
-# # NVM
-# export NVM_DIR="$HOME/.nvm"
-# _lazy_load_nvm() {
-#   [[ ${_NVM_LOADED:-0} -eq 1 ]] && return 0
-#   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-#   [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
-#   command -v nvm >/dev/null 2>&1 && nvm use --silent default >/dev/null 2>&1 || true
-#   typeset -g _NVM_LOADED=1
-# }
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# # Ensure default Node version/global npm binaries are available in every new shell.
-# _lazy_load_nvm
-
-# # pyenv
-# export PYENV_ROOT="${PYENV_ROOT:-$HOME/.pyenv}"
-# if [[ -d "$PYENV_ROOT/bin" && ":$PATH:" != *":$PYENV_ROOT/bin:"* ]]; then
-#   export PATH="$PYENV_ROOT/bin:$PATH"
-# fi
-# if [[ -d "$PYENV_ROOT/shims" && ":$PATH:" != *":$PYENV_ROOT/shims:"* ]]; then
-#   export PATH="$PYENV_ROOT/shims:$PATH"
-# fi
-# if command -v pyenv >/dev/null 2>&1; then
-#   pyenv() {
-#     unset -f pyenv
-#     eval "$(command pyenv init - zsh)"
-#     pyenv "$@"
-#   }
-# fi
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+# Load pyenv-virtualenv automatically by adding
+# eval "$(pyenv virtualenv-init -)"
 
 # Custom configs
 ifsource "$HOME/.export.sh"
 ifsource "$HOME/.function.sh"
 ifsource "$HOME/.alias.sh"
 
-# zi plugin manager
+# Zi plugin manager
 # sh -c "$(curl -fsSL get.zshell.dev)" -- -i skip -b main
+export ZI_HOME="$HOME/.zi/bin"
+ifsource "$ZI_HOME/zi.zsh"
 # zi light z-shell/zsh-lsd
-ifsource "$HOME/.zi/bin/zi.zsh"
 
 # Keybindings — emacs mode
 zmodload zsh/terminfo # required for $terminfo[] lookups below
@@ -211,9 +179,6 @@ bindkey '^[[C' forward-char
 [[ -n ${terminfo[kRIT5]:-} ]] && bindkey "${terminfo[kRIT5]}" forward-word
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
-
-# 100ms — enough for multi-key sequences without noticeable lag
-export KEYTIMEOUT=10
 
 # Lock terminal state after init to prevent corruption
 ttyctl -f

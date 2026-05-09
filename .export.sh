@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # XDG base dirs — must come first; everything below may reference these
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
@@ -13,8 +13,8 @@ export PAGER="less"
 export MANPAGER="nvim +Man!"
 export BROWSER="firefox"
 export DIFFTOOL="icdiff"
-export LC_ALL="en_IN.UTF-8"
-export LANG="en_IN.UTF-8"
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
 export GPG_TTY="$(tty)"
 # export GNUPGHOME="${XDG_DATA_HOME}/gnupg"
 

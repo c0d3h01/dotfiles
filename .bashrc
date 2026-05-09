@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[[ $- != *i* ]] && return
-
 # Bash history configuration
 export HISTFILE="$HOME/.bash_history"
 export HISTSIZE=5000
