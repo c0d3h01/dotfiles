@@ -3,13 +3,23 @@ let
   inherit (pkgs) lib stdenv;
 in
 {
-  home.username = "c0d3h01";
-  home.homeDirectory = "/home/c0d3h01";
-  home.stateVersion = "25.11";
+
+  imports = [
+    ./modules/default.nix
+  ];
+
   programs.home-manager.enable = true;
+  nixpkgs.config.allowUnfree = true;
+
+  home = {
+    username = "c0d3h01";
+    homeDirectory = "/home/c0d3h01";
+    stateVersion = "25.11";
+  };
 
   home.packages =
     (with pkgs; [
+      zsh
       zsh-autosuggestions
       zsh-completions
       nix-zsh-completions
@@ -27,7 +37,6 @@ in
       kubectl
       bash-language-server
       tmux
-      zsh
       fzf
       fd
       file
@@ -36,6 +45,7 @@ in
       bat
       less
       direnv
+      nix-direnv
       starship
       gitFull
       git-lfs
@@ -58,7 +68,6 @@ in
     ++ lib.optionals stdenv.isLinux (
       with pkgs;
       [
-        # brave
         xclip
       ]
     );
