@@ -1,184 +1,97 @@
-#!/usr/bin/env zsh
+#!/bin/zsh
+# mac-only, Apple Silicon. brew owns CLI tools, nix adds the extras.
 
-# History
-export DISABLE_AUTO_TITLE="true"
-export COMPLETION_WAITING_DOTS="false"
-export HIST_STAMPS="dd.mm.yyyy"
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+# nix-daemon.sh, not nix.sh: only this one puts the nix binary on PATH
+if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
+
 export HISTSIZE=50000
 export SAVEHIST=50000
 export HISTFILE="$HOME/.zsh_history"
 setopt HIST_IGNORE_SPACE
-setopt sharehistory         # implies appendhistory + incappendhistory
-setopt HIST_IGNORE_ALL_DUPS # implies HIST_EXPIRE_DUPS_FIRST
+setopt sharehistory
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 unsetopt correct
 unsetopt correct_all
 
-# Navigation + completion behaviour
 setopt auto_cd
 setopt auto_list
 setopt auto_menu
 setopt always_to_end
 setopt interactive_comments
+
 zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' completer _expand _complete _ignored _approximate
-
-# fzf-tab zstyles — must be set before compinit
+zstyle ':completion:*' list-colors "$LS_COLORS"
 zstyle ':completion:*:git-checkout:*' sort false
-zstyle ':fzf-tab:*' use-fzf-default-opts yes
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 --color=always $realpath'
 
-# fpath — extend before compinit so completions are picked up
-# zsh-completions and nix-zsh-completions both install into site-functions
-_nix_site_functions="$HOME/.nix-profile/share/zsh/site-functions"
-if [[ -d $_nix_site_functions ]]; then
-  fpath=("$_nix_site_functions" $fpath)
-fi
-unset _nix_site_functions
+# fpath before compinit or brew completions never load
+fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
 
-# Custom completions (local overrides, takes highest priority)
-if [[ -d "$HOME/.completions/src" ]]; then
-  fpath=("$HOME/.completions/src" $fpath)
-fi
-
-# Completion init with compiled cache
-_zsh_comp_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
-_zcompdump_file="$_zsh_comp_cache_dir/.zcompdump"
-mkdir -p "$_zsh_comp_cache_dir"
-
+_zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump"
+mkdir -p "${_zcompdump:h}"
 autoload -Uz compinit
-compinit -C -d "$_zcompdump_file"
-if [[ -s $_zcompdump_file && (! -s "$_zcompdump_file.zwc" || $_zcompdump_file -nt "$_zcompdump_file.zwc") ]]; then
-  zcompile "$_zcompdump_file"
-fi
-unset _zsh_comp_cache_dir _zcompdump_file
+compinit -C -d "$_zcompdump"
 
-# zsh-autosuggestions
+# fzf-tab reads these at source time, so after compinit and before the plugin
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 $realpath'
+
+# order is load-bearing, highlighting must stay last
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC="true"
-# ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-_nix_autosuggest="$HOME/.nix-profile/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-[[ -f $_nix_autosuggest ]] && source "$_nix_autosuggest"
-unset _nix_autosuggest
+source /opt/homebrew/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/opt/fzf/shell/completion.zsh
+source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+source /opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh
+source /opt/homebrew/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# fzf-tab — must load after compinit, before syntax highlighting
-_nix_fzf_tab="$HOME/.nix-profile/share/fzf-tab/fzf-tab.plugin.zsh"
-[[ -f $_nix_fzf_tab ]] && source "$_nix_fzf_tab"
-unset _nix_fzf_tab
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
+command -v starship >/dev/null && eval "$(starship init zsh)"
+command -v fnm >/dev/null && eval "$(fnm env --use-on-cd --shell zsh)"
+command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
 
-# fast-syntax-highlighting — must be sourced last among plugins
-_nix_fsh="$HOME/.nix-profile/share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh"
-[[ -f $_nix_fsh ]] && source "$_nix_fsh"
-unset _nix_fsh
-
-# Source helper — no-op if file missing
-ifsource() { [[ -f $1 ]] && source "$1"; }
-
-# direnv
-if (( $+commands[direnv] )); then
-  eval "$(direnv hook zsh)"
-fi
-
-# Prompt
-if (( $+commands[starship] )); then
-  eval "$(starship init zsh)"
-fi
-
-# kubectl completion — cached against binary mtime to avoid regenerating every shell
-if (( $+commands[kubectl] )); then
-  _zsh_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
-  _kubectl_comp_cache="$_zsh_cache_dir/kubectl-completion.zsh"
-  mkdir -p "$_zsh_cache_dir"
-
-  if [[ ! -s $_kubectl_comp_cache || $_kubectl_comp_cache -ot "$(command -v kubectl)" ]]; then
-    kubectl completion zsh >|"$_kubectl_comp_cache" 2>/dev/null
+# generating these costs ~1s, so rebuild only when the binary is newer
+if command -v kubectl >/dev/null; then
+  _kubectl_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/kubectl-completion.zsh"
+  mkdir -p "${_kubectl_cache:h}"
+  if [[ ! -s $_kubectl_cache || $_kubectl_cache -ot "$(command -v kubectl)" ]]; then
+    kubectl completion zsh >"$_kubectl_cache" 2>/dev/null
   fi
-
-  [[ -s $_kubectl_comp_cache ]] && source "$_kubectl_comp_cache"
-  unset _zsh_cache_dir _kubectl_comp_cache
+  [[ -s $_kubectl_cache ]] && source "$_kubectl_cache"
+  unset _kubectl_cache
 fi
 
-# Named dir hashes
-ifsource "$HOME/.local/share/zsh/.zsh_dir_hashes"
+source "$HOME/.shell_export.sh"
+source "$HOME/.shell_function.sh"
+source "$HOME/.shell_alias.sh"
+[[ -f "$HOME/.secrets.env" ]] && source "$HOME/.secrets.env"
 
-# fzf key bindings + completions (nix-managed)
-if [[ -d "$HOME/.nix-profile/share/fzf" ]]; then
-  source "$HOME/.nix-profile/share/fzf/completion.zsh"
-  source "$HOME/.nix-profile/share/fzf/key-bindings.zsh"
-fi
-
-# LS_COLORS (trapd00r/LS_COLORS)
-if [[ -z ${LS_COLORS:-} && -f "$HOME/.dircolors" ]]; then
-  eval "$(dircolors -b "$HOME/.dircolors")"
-fi
-if [[ -n ${LS_COLORS:-} ]]; then
-  zstyle ':completion:*' list-colors "$LS_COLORS"
-fi
-
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
-# Load pyenv-virtualenv automatically by adding
-# eval "$(pyenv virtualenv-init -)"
-
-# Custom configs
-ifsource "$HOME/.export.sh"
-ifsource "$HOME/.function.sh"
-ifsource "$HOME/.alias.sh"
-
-# Zi plugin manager
-# sh -c "$(curl -fsSL get.zshell.dev)" -- -i skip -b main
-export ZI_HOME="$HOME/.zi/bin"
-ifsource "$ZI_HOME/zi.zsh"
-# zi light z-shell/zsh-lsd
-
-# Keybindings — emacs mode
-zmodload zsh/terminfo # required for $terminfo[] lookups below
+# arrows read from terminfo so they work in any terminal
+zmodload zsh/terminfo
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey -e
 
-# Line movement
+bindkey -e
 bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
-
-# History search by typed prefix
 bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
-
-# Delete
-bindkey '^?' backward-delete-char # Backspace
 bindkey '^w' backward-kill-word
-
-# Edit command in $EDITOR
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
-# Arrow keys via terminfo (portable across terminals)
-[[ -n ${terminfo[kcuu1]:-} ]] && bindkey "${terminfo[kcuu1]}" history-search-backward
-[[ -n ${terminfo[kcud1]:-} ]] && bindkey "${terminfo[kcud1]}" history-search-forward
-[[ -n ${terminfo[kcub1]:-} ]] && bindkey "${terminfo[kcub1]}" backward-char
-[[ -n ${terminfo[kcuf1]:-} ]] && bindkey "${terminfo[kcuf1]}" forward-char
-
-# Fallback escape sequences for arrow keys
-bindkey '^[[D' backward-char
-bindkey '^[[C' forward-char
-
-# Ctrl+Arrow word motion
-[[ -n ${terminfo[kLFT5]:-} ]] && bindkey "${terminfo[kLFT5]}" backward-word
-[[ -n ${terminfo[kRIT5]:-} ]] && bindkey "${terminfo[kRIT5]}" forward-word
-bindkey '^[[1;5D' backward-word
-bindkey '^[[1;5C' forward-word
-
-# Lock terminal state after init to prevent corruption
-ttyctl -f
+bindkey "${terminfo[kcuu1]}" history-search-backward
+bindkey "${terminfo[kcud1]}" history-search-forward
+bindkey "${terminfo[kcub1]}" backward-char
+bindkey "${terminfo[kcuf1]}" forward-char
+bindkey "${terminfo[kLFT5]}" backward-word
+bindkey "${terminfo[kRIT5]}" forward-word
