@@ -6,9 +6,9 @@
 [core]
   editor = nvim
   pager = delta
-  excludesFile = ./ignore
-  attributesFile = ./attributes
-  hooksPath = ./hooks
+  excludesFile = ~/.config/git/ignore
+  attributesFile = ~/.config/git/attributes
+  hooksPath = ~/.config/git/hooks
   longpaths = true
 
 [init]
