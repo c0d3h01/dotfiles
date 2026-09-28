@@ -2,8 +2,8 @@
 
 scan_timeout = 1000
 
+# macOS default look: machine name, path, git, then % on a new line
 format = """
-$username\
 $hostname\
 $directory\
 $git_branch\
@@ -11,42 +11,45 @@ $git_state\
 $git_status\
 $cmd_duration\
 $line_break\
-$python\
 $character"""
 
-[directory]
-style = "blue"
+[hostname]
+format = "[$hostname](bold dimmed white) "
+# scutil reports the .local domain, macOS prompt does not show it
+ssh_only = false
 
-[character]
-success_symbol = "[❯](purple)"
-error_symbol = "[❯](red)"
-vimcmd_symbol = "[❮](green)"
+[directory]
+format = "[$path]($style) "
+style = "blue dimmed"
+truncate_to_repo = false
 
 [git_branch]
-format = "[$branch]($style)"
+format = "on [$branch]($style) "
+style = "green"
+
+[git_state]
+format = '[$state( $progress_current/$progress_total)]($style) '
 style = "bright-black"
 
 [git_status]
-format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
-style = "cyan"
-conflicted = "​"
-untracked = "​"
-modified = "​"
-staged = "​"
-renamed = "​"
-deleted = "​"
-stashed = "≡"
-
-[git_state]
-format = '\([$state( $progress_current/$progress_total)]($style)\) '
+format = "[[($conflicted$untracked$modified$staged$renamed$deleted)]($style)]($style) "
 style = "bright-black"
+conflicted = "!"
+untracked = "?"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✗"
+stashed = "$"
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
 
 [cmd_duration]
-format = "[$duration]($style) "
-style = "yellow"
-
-[python]
-format = "[$virtualenv]($style) "
+format = "[took $duration]($style) "
 style = "bright-black"
-detect_extensions = []
-detect_files = []
+
+[character]
+success_symbol = "[%](bold green)"
+error_symbol = "[%](bold red)"
+vimcmd_symbol = "[%](bold yellow)"
