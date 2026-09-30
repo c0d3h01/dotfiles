@@ -1,0 +1,5 @@
+git_protocol: ssh
+prompt: enabled
+pager: delta
+editor: nvim
+browser: open
