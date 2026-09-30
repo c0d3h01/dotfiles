@@ -97,16 +97,6 @@
       ],
       "enabled": false
     },
-    "filesystem": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/Users/harshal"
-      ],
-      "enabled": true
-    },
     "memory": {
       "type": "local",
       "command": [
@@ -115,29 +105,11 @@
         "@modelcontextprotocol/server-memory"
       ],
       "enabled": true
-    },
-    "blender": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "blender-mcp"
-      ],
-      "enabled": false,
-      "environment": {
-        "BLENDER_HOST": "localhost",
-        "BLENDER_PORT": "9876"
-      }
-    },
-    "canva": {
-      "type": "remote",
-      "url": "https://mcp.canva.com/mcp",
-      "enabled": false
     }
   },
   "permission": {
     "*": "allow",
     "bash": {
-      "*": "allow",
       "rm -rf *": "ask",
       "sudo *": "ask",
       "git push --force*": "ask",
