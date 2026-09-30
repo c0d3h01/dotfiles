@@ -1,0 +1,43 @@
+{
+  "global": { "show_in_menu_bar": false },
+  "profiles": [
+    {
+      "name": "Default",
+      "selected": true,
+      "simple_modifications": [],
+      "complex_modifications": {
+        "parameters": {
+          "basic.to_if_alone_timeout_milliseconds": 300
+        },
+        "rules": [
+          {
+            "description": "caps_lock -> escape (tap) / control (hold)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "caps_lock", "modifiers": { "optional": ["any"] } },
+                "to": [{ "key_code": "left_control" }],
+                "to_if_alone": [{ "key_code": "escape" }]
+              }
+            ]
+          },
+          {
+            "description": "right_option -> hyper (ctrl+opt+cmd+shift)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": { "key_code": "right_option", "modifiers": { "optional": ["any"] } },
+                "to": [
+                  {
+                    "key_code": "right_shift",
+                    "modifiers": ["right_control", "right_option", "right_command"]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
