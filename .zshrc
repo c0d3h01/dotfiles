@@ -58,6 +58,8 @@ command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 command -v starship >/dev/null && eval "$(starship init zsh)"
 command -v fnm >/dev/null && eval "$(fnm env --use-on-cd --shell zsh)"
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
+command -v mise >/dev/null && eval "$(mise activate zsh)"
+command -v atuin >/dev/null && eval "$(atuin init zsh --disable-up-arrow)"
 
 # generating these costs ~1s, so rebuild only when the binary is newer
 if command -v kubectl >/dev/null; then
@@ -89,9 +91,13 @@ bindkey '^w' backward-kill-word
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
-bindkey "${terminfo[kcuu1]}" history-search-backward
-bindkey "${terminfo[kcud1]}" history-search-forward
-bindkey "${terminfo[kcub1]}" backward-char
-bindkey "${terminfo[kcuf1]}" forward-char
-bindkey "${terminfo[kLFT5]}" backward-word
-bindkey "${terminfo[kRIT5]}" forward-word
+# terminfo caps can be missing (e.g. kLFT5 under tmux), so guard each bind
+[[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" history-search-backward
+[[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" history-search-forward
+[[ -n "${terminfo[kcub1]}" ]] && bindkey "${terminfo[kcub1]}" backward-char
+[[ -n "${terminfo[kcuf1]}" ]] && bindkey "${terminfo[kcuf1]}" forward-char
+[[ -n "${terminfo[kLFT5]}" ]] && bindkey "${terminfo[kLFT5]}" backward-word
+[[ -n "${terminfo[kRIT5]}" ]] && bindkey "${terminfo[kRIT5]}" forward-word
+# xterm-style fallback: ctrl-arrows send these in ghostty + tmux
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
