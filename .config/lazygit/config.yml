@@ -4,9 +4,10 @@ git:
   merging:
     args: ""
     manualCommit: false
-  paging:
-    colorArg: always
-    useConfig: true
+  diffRenderers:
+    - colorArg: always
+      useConfig: true
+      type: rawGit
 gui:
   commitLength:
     show: true
@@ -16,14 +17,14 @@ gui:
   sidePanelWidth: 0.3
   theme:
     activeBorderColor:
-    - cyan
-    - bold
+      - cyan
+      - bold
     inactiveBorderColor:
-    - green
+      - green
     lightTheme: true
     optionsTextColor:
-    - blue
+      - blue
     selectedLineBgColor:
-    - reverse
+      - reverse
     selectedRangeBgColor:
-    - blue
+      - blue
