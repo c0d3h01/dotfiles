@@ -1,0 +1,6 @@
+gui:
+  returnImmediately: false
+logs:
+  timestamps: true
+  since: ""
+  tail: 100
