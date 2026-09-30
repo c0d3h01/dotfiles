@@ -1,0 +1,9 @@
+[manager]
+show_hidden = true
+sort_by = "natural"
+sort_reverse = false
+
+[preview]
+max_width = 800
+max_height = 800
+image_filter = "lanczos"
