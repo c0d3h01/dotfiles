@@ -70,11 +70,11 @@ filter_mode = "global"
 
 ## which display style to use
 ## possible values: auto, full, compact
-# style = "compact"
+style = "compact"
 
 ## the maximum number of lines the interface should take up
 ## set it to 0 to always go full screen
-# inline_height = 40
+inline_height = 20
 
 ## the maximum number of lines the interface should take up
 ## when atuin is invoked from a shell up-key binding
@@ -90,7 +90,7 @@ show_preview = true
 
 ## what to do when the escape key is pressed when searching
 ## possible values: return-original, return-query
-# exit_mode = "return-original"
+exit_mode = "return-original"
 
 ## possible values: emacs, subl
 # word_jump_mode = "emacs"
@@ -207,29 +207,16 @@ enter_accept = true
 
 [stats]
 ## Set commands where we should consider the subcommand for statistics. Eg, kubectl get vs just kubectl
-# common_subcommands = [
-#   "apt",
-#   "cargo",
-#   "composer",
-#   "dnf",
-#   "docker",
-#   "dotnet",
-#   "git",
-#   "go",
-#   "ip",
-#   "jj",
-#   "kubectl",
-#   "nix",
-#   "nmcli",
-#   "npm",
-#   "pecl",
-#   "pnpm",
-#   "podman",
-#   "port",
-#   "systemctl",
-#   "tmux",
-#   "yarn",
-# ]
+common_subcommands = [
+  "brew",
+  "cargo",
+  "docker",
+  "git",
+  "kubectl",
+  "mise",
+  "npm",
+  "pnpm",
+]
 
 ## Set commands that should be totally stripped and ignored from stats
 # common_prefix = ["sudo"]
@@ -337,7 +324,7 @@ enter_accept = true
 ##
 ## - array of strings: show commands run by any shell in the array; "" includes
 ##   commands that have no recorded shell
-# shells = "auto"
+shells = "auto"
 
 [tmux]
 ## Enable using atuin with tmux popup (requires tmux >= 3.2)
