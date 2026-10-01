@@ -2,7 +2,7 @@
 # Shared env, mac-only. XDG first, user bins last so they beat brew in PATH.
 
 # -d guard: missing toolchains shouldn't litter PATH with dead entries
-add_to_path() { [[ -d "$1" ]] && export PATH="$1:$PATH"; }
+add_to_path() { [[ -d "$1" && ":$PATH:" != *":$1:"* ]] && export PATH="$1:$PATH"; }
 
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
