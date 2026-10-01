@@ -3,4 +3,5 @@ experimental = true
 
 [tools]
 node = "lts"
-python = "latest"
+python = "3.13"
+ruby = "3.4"
