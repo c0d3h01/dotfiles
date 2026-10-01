@@ -1,121 +1,105 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "plugin": [
-    "@dietrichgebert/ponytail",
-    "caveman-opencode-plugin",
-    "superpowers@git+https://github.com/obra/superpowers.git"
-  ],
-  "formatter": true,
-  "lsp": true,
-  "autoupdate": false,
-  "snapshot": true,
-  "compaction": {
-    "auto": true,
-    "prune": true
-  },
-  "mcp": {
-    "cloudflare": {
-      "type": "remote",
-      "url": "https://mcp.cloudflare.com/mcp",
-      "enabled": false
-    },
-    "supabase": {
-      "type": "remote",
-      "url": "https://mcp.supabase.com/mcp",
-      "enabled": false
-    },
-    "shopify": {
-      "type": "remote",
-      "url": "https://setup.shopify.com/mcp",
-      "enabled": false
-    },
-    "postgres": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@microsoft/postgres-mcp",
-        "run"
-      ],
-      "enabled": false
-    },
-    "figma": {
-      "type": "remote",
-      "url": "http://127.0.0.1:3845/mcp",
-      "enabled": false
-    },
-    "context7": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@upstash/context7-mcp"
-      ],
-      "enabled": false
-    },
-    "chrome-devtools": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "chrome-devtools-mcp@latest"
-      ],
-      "enabled": false
-    },
-    "websearch": {
-      "type": "remote",
-      "url": "https://mcp.exa.ai/mcp?tools=web_search_exa",
-      "oauth": false,
-      "enabled": true
-    },
-    "grep_app": {
-      "type": "remote",
-      "url": "https://mcp.grep.app",
-      "oauth": false,
-      "enabled": false
-    },
-    "codegraph": {
-      "type": "local",
-      "command": [
-        "codegraph",
-        "serve",
-        "--mcp"
-      ],
-      "enabled": false
-    },
-    "wpvibe": {
-      "type": "remote",
-      "url": "https://mcp.wpvibe.ai/mcp",
-      "enabled": false
-    },
-    "next-devtools": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "next-devtools-mcp@latest"
-      ],
-      "enabled": false
-    },
-    "memory": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-memory"
-      ],
-      "enabled": true
-    }
-  },
-  "permission": {
-    "*": "allow",
-    "bash": {
-      "rm -rf *": "ask",
-      "sudo *": "ask",
-      "git push --force*": "ask",
-      "git reset --hard*": "ask",
-      "*drop database*": "ask",
-      "*truncate*": "ask"
-    }
-  }
+	"$schema": "https://opencode.ai/config.json",
+	"plugin": [
+		"@dietrichgebert/ponytail",
+		"caveman-opencode-plugin",
+		"superpowers@git+https://github.com/obra/superpowers.git"
+	],
+	"default_agent": "build",
+	"formatter": true,
+	"lsp": true,
+	"autoupdate": false,
+	"snapshot": true,
+	"compaction": {
+		"auto": true,
+		"prune": true,
+		"reserved": 20000
+	},
+	"provider": {
+		"opencode": {
+			"options": {
+				"setCacheKey": true
+			}
+		}
+	},
+	"mcp": {
+		"cloudflare": {
+			"type": "remote",
+			"url": "https://mcp.cloudflare.com/mcp",
+			"enabled": false
+		},
+		"supabase": {
+			"type": "remote",
+			"url": "https://mcp.supabase.com/mcp",
+			"enabled": false
+		},
+		"shopify": {
+			"type": "remote",
+			"url": "https://setup.shopify.com/mcp",
+			"enabled": false
+		},
+		"postgres": {
+			"type": "local",
+			"command": ["npx", "-y", "@microsoft/postgres-mcp", "run"],
+			"enabled": false
+		},
+		"figma": {
+			"type": "remote",
+			"url": "http://127.0.0.1:3845/mcp",
+			"enabled": false
+		},
+		"context7": {
+			"type": "local",
+			"command": ["npx", "-y", "@upstash/context7-mcp"],
+			"enabled": false
+		},
+		"chrome-devtools": {
+			"type": "local",
+			"command": ["npx", "-y", "chrome-devtools-mcp@latest"],
+			"enabled": false
+		},
+		"websearch": {
+			"type": "remote",
+			"url": "https://mcp.exa.ai/mcp?tools=web_search_exa",
+			"oauth": false,
+			"enabled": true
+		},
+		"grep_app": {
+			"type": "remote",
+			"url": "https://mcp.grep.app",
+			"oauth": false,
+			"enabled": false
+		},
+		"codegraph": {
+			"type": "local",
+			"command": ["codegraph", "serve", "--mcp"],
+			"enabled": false
+		},
+		"wpvibe": {
+			"type": "remote",
+			"url": "https://mcp.wpvibe.ai/mcp",
+			"enabled": false
+		},
+		"next-devtools": {
+			"type": "local",
+			"command": ["npx", "-y", "next-devtools-mcp@latest"],
+			"enabled": false
+		},
+		"memory": {
+			"type": "local",
+			"command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
+			"enabled": false
+		}
+	},
+	"permission": {
+		"*": "allow",
+		"bash": {
+			"rm -rf *": "ask",
+			"sudo *": "ask",
+			"git push --force*": "ask",
+			"git reset --hard*": "ask",
+			"*drop database*": "ask",
+			"*truncate*": "ask"
+		}
+	}
 }
