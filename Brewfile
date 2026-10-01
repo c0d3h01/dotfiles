@@ -73,8 +73,6 @@ cask "1password-cli"
 # apps
 cask "ghostty"
 cask "hammerspoon"
-cask "karabiner-elements"
-cask "aerospace"
 cask "google-chrome"
 
 # fonts

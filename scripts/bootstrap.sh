@@ -17,7 +17,6 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 if brew bundle check --file="$DOTFILES/Brewfile" >/dev/null 2>&1; then say bundle ok; else
   say bundle installing
-  brew trust --cask nikitabobko/tap/aerospace 2>/dev/null || true
   brew bundle --file="$DOTFILES/Brewfile"
 fi
 
