@@ -1,0 +1,14 @@
+{
+  "theme": {
+    "name": "opencode"
+  },
+  "diffs": {
+    "wrap": "word"
+  },
+  "session": {
+    "sidebar": true,
+    "scrollbar": true,
+    "thinking": "show"
+  },
+  "animations": true
+}
