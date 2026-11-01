@@ -1,19 +1,44 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "model": "",
+  "small_model": "",
+  "share": "disabled",
   "permission": {
-    "*": "allow",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow",
+      "*.pem": "deny",
+      "*id_rsa*": "deny",
+      "*id_ed25519*": "deny",
+    },
+    "edit": "allow",
+    "external_directory": "ask",
+    "doom_loop": "ask",
     "bash": {
-      "rm -rf *": "ask",
+      "*": "allow",
+      "rm *": "ask",
       "sudo *": "ask",
       "git push*": "ask",
       "git reset*": "ask",
+      "git clean*": "ask",
+      "git rebase*": "ask",
+      "git checkout -- *": "ask",
+      "chmod -R*": "ask",
+      "chown -R*": "ask",
+      "dd *": "deny",
+      "mkfs*": "deny",
+      "diskutil erase*": "deny",
+      "sh": "ask",
+      "bash": "ask",
+      "zsh": "ask",
       "*drop database*": "ask",
-      "*truncate*": "ask"
-    }
+      "*truncate*": "ask",
+    },
   },
-  "plugin": [
-    "@dietrichgebert/ponytail"
-  ],
+  "plugin": ["@dietrichgebert/ponytail"],
   "default_agent": "build",
   "formatter": true,
   "lsp": true,
@@ -21,106 +46,46 @@
   "snapshot": true,
   "compaction": {
     "auto": true,
-    "prune": true
+    "prune": true,
+  },
+  "tools": {
+    "context7*": false,
+    "websearch*": false
   },
   "mcp": {
-    "cloudflare": {
-      "type": "remote",
-      "url": "https://mcp.cloudflare.com/mcp",
-      "enabled": false
-    },
-    "supabase": {
-      "type": "remote",
-      "url": "https://mcp.supabase.com/mcp",
-      "enabled": false
-    },
-    "shopify": {
-      "type": "remote",
-      "url": "https://setup.shopify.com/mcp",
-      "enabled": false
-    },
-    "postgres": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@microsoft/postgres-mcp",
-        "run"
-      ],
-      "enabled": false
-    },
-    "grep_app": {
-      "type": "remote",
-      "url": "https://mcp.grep.app",
-      "oauth": false,
-      "enabled": false
-    },
-    "wpvibe": {
-      "type": "remote",
-      "url": "https://mcp.wpvibe.ai/mcp",
-      "enabled": false
-    },
     "next-devtools": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "next-devtools-mcp@latest"
-      ],
-      "enabled": false
-    },
-    "memory": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-memory"
-      ],
-      "enabled": false
+      "command": ["npx", "-y", "next-devtools-mcp@latest"],
+      "enabled": false,
     },
     "context7": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@upstash/context7-mcp"
-      ],
-      "enabled": true
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "enabled": true,
     },
     "websearch": {
       "type": "remote",
       "url": "https://mcp.exa.ai/mcp?tools=web_search_exa",
       "oauth": false,
-      "enabled": true
+      "enabled": true,
     },
     "rea": {
       "type": "local",
-      "command": [
-        "rea",
-        "mcp"
-      ],
-      "enabled": false
+      "command": ["rea", "mcp"],
+      "enabled": false,
     },
     "caveman": {
       "type": "local",
-      "command": [
-        "/Users/harshal/.caveman/bin/caveman-mcp"
-      ],
-      "enabled": true
+      "command": ["/Users/harshal/.caveman/bin/caveman-mcp"],
+      "enabled": true,
     },
-    "servers": {
-      "skill-issue": {
-        "type": "remote",
-        "url": "https://skill-issue.in/api/mcp"
-      },
-      "codegraph": {
-        "type": "local",
-        "command": [
-          "codegraph",
-          "serve",
-          "--mcp"
-        ]
-      }
-    }
-  }
+    "skill-issue": {
+      "type": "remote",
+      "url": "https://skill-issue.in/api/mcp",
+    },
+    "codegraph": {
+      "type": "local",
+      "command": ["codegraph", "serve", "--mcp"],
+    },
+  },
 }
