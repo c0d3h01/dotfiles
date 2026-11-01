@@ -55,8 +55,7 @@ default.rest
 .aider.*
 .roorules
 .roo
-.github/copilot-instructions.md
 .opencode
-AGENTS.md
 **/.claude/settings.local.json
-CLAUDE.md
+.superpowers
+
